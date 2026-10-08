@@ -91,7 +91,7 @@ export default function CompanySection() {
             <div className="pt-4 border-t-2 text-xs text-ink-3 flex items-center justify-between"
               style={{ borderColor: '#DDD9FF' }}>
               <span>Built with pride on Anthropic Claude</span>
-              <span className="font-bold font-mono text-brand">trendpulse.ai</span>
+              <span className="font-bold font-mono text-brand">officialtrendpulse.in</span>
             </div>
           </div>
 

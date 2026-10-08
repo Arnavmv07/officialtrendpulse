@@ -274,11 +274,11 @@ export default function App() {
               </p>
               <div className="pt-1">
                 <a 
-                  href="mailto:founders@trendpulse.ai" 
+                  href="mailto:founders@officialtrendpulse.in" 
                   className="text-xs font-mono font-bold text-brand hover:underline flex items-center gap-1"
                 >
                   <Mail className="w-3.5 h-3.5" />
-                  founders@trendpulse.ai
+                  founders@officialtrendpulse.in
                 </a>
               </div>
             </div>

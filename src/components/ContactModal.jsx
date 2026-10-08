@@ -53,8 +53,8 @@ export default function ContactModal({ isOpen, onClose }) {
             <Mail className="w-4 h-4 text-brand" />
             <span className="font-bold text-ink">Direct Founder Email:</span>
           </div>
-          <a href="mailto:founders@trendpulse.ai" className="font-mono font-bold text-brand hover:underline">
-            founders@trendpulse.ai
+          <a href="mailto:founders@officialtrendpulse.in" className="font-mono font-bold text-brand hover:underline">
+            founders@officialtrendpulse.in
           </a>
         </div>
 

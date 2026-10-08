@@ -78,7 +78,7 @@ export default function ComplianceModal({ isOpen, onClose, defaultTab = 'privacy
 
               <h3 className="text-base font-extrabold text-ink">4. Data Deletion Rights</h3>
               <p>
-                Users may export or delete their entire saved concept backlog at any time through the Creator Studio settings or by emailing <code>privacy@trendpulse.ai</code>.
+                Users may export or delete their entire saved concept backlog at any time through the Creator Studio settings or by emailing <code>privacy@officialtrendpulse.in</code>.
               </p>
             </div>
           )}
