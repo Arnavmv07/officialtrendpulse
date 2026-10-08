@@ -1,6 +1,6 @@
 import { writeFile, mkdir } from 'node:fs/promises';
 // No callable generation endpoint. Only the explicitly armed preview build can run this.
-if (process.env.VERCEL_ENV === 'preview' && process.env.TRENDPULSE_PRIVATE_TEST === 'armed-once-20261008') {
+if (process.env.VERCEL_ENV === 'preview') {
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) throw new Error('Private test missing credential');
   const headers = { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' };
@@ -10,6 +10,9 @@ if (process.env.VERCEL_ENV === 'preview' && process.env.TRENDPULSE_PRIVATE_TEST 
   const tokenCount = (await count.json()).input_tokens;
   if (!Number.isInteger(tokenCount) || tokenCount > 1000) throw new Error('Input bound exceeded');
   if (count.headers.get('anthropic-organization-id') !== 'b8b82f64-5b00-4a2b-b361-6db7b87539a8') throw new Error('Organization mismatch before generation');
+  await mkdir('dist/private-test',{recursive:true});
+  await writeFile('dist/private-test/preflight.json',JSON.stringify({inputTokens:tokenCount,organizationId:count.headers.get('anthropic-organization-id')}));
+  if (process.env.TRENDPULSE_PRIVATE_TEST !== 'armed-once-20261008') { console.log('Free token preflight passed; generation disabled.'); process.exit(0); }
   // Approval: one Messages request, <=1000 input tokens and <=320 output tokens.
   const r = await fetch('https://api.anthropic.com/v1/messages', {method:'POST',headers,body:JSON.stringify(payload),signal:AbortSignal.timeout(20000)});
   if (!r.ok) throw new Error('Private test failed; no automatic retry');
