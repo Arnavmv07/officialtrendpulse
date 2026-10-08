@@ -131,16 +131,6 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
         {/* ── Tone + Format selectors ───────────────── */}
         <div className="px-6 py-3 border-b-2 flex flex-wrap items-center justify-between gap-3"
           style={{ borderColor: '#EEF0FF', background: '#F6F5FF' }}>
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs font-bold" style={{ color: '#7A788F' }}>Tone:</span>
-            {['engaging', 'controversial', 'educational', 'hype'].map(t => (
-              <button key={t} onClick={() => setTone(t)}
-                className="px-3 py-1 rounded-full text-xs font-bold capitalize transition-all cursor-pointer"
-                style={tone === t ? { background: '#4B35E8', color: '#fff' } : { background: '#EEF0FF', color: '#4B35E8' }}>
-                {t}
-              </button>
-            ))}
-          </div>
           <div className="flex gap-1 p-1 rounded-xl" style={{ background: '#EEF0FF' }}>
             {[['shortForm', 'Shorts / Reels'], ['longForm', 'Long-Form (10m+)']].map(([f, label]) => (
               <button key={f} onClick={() => setFormat(f)}
@@ -321,4 +311,4 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
       </div>
     </div>
   );
-}
+      }
