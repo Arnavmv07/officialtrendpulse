@@ -18,20 +18,9 @@ export default function ContactModal({ isOpen, onClose, initialRole = 'Creator /
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) return;
 
-    const ref = `TP-${Date.now().toString(36).toUpperCase()}-${Math.floor(Math.random() * 899 + 100)}`;
-    setTicketId(ref);
-
-    const submission = {
-      referenceId: ref,
-      submittedAt: new Date().toISOString(),
-      ...formData
-    };
-
-    // Store in localStorage so inquiries are persisted and retrievable
-    const existing = JSON.parse(localStorage.getItem('trendpulse_inquiries') || '[]');
-    existing.unshift(submission);
-    localStorage.setItem('trendpulse_inquiries', JSON.stringify(existing));
-
+    const subject = encodeURIComponent('TrendPulse inquiry');
+    const body = encodeURIComponent(`Name: ${formData.name}\nReply email: ${formData.email}\nOrganization: ${formData.company}\n\n${formData.message}`);
+    window.location.href = `mailto:founders@officialtrendpulse.in?subject=${subject}&body=${body}`;
     setSubmitted(true);
   };
 
@@ -56,7 +45,7 @@ export default function ContactModal({ isOpen, onClose, initialRole = 'Creator /
             </div>
             <h2 className="text-2xl font-extrabold text-ink">Connect with TrendPulse</h2>
             <p className="text-xs text-ink-3 mt-1">
-              Enterprise pilot programs, custom MCP scrapers, or partnership inquiries.
+              Questions or feedback about this prototype. The mailbox is being set up; delivery is not yet confirmed.
             </p>
           </div>
           <button onClick={onClose} className="p-2 rounded-xl hover:bg-surface text-ink-3 hover:text-ink cursor-pointer">
@@ -83,13 +72,13 @@ export default function ContactModal({ isOpen, onClose, initialRole = 'Creator /
               <CheckCircle2 className="w-8 h-8 text-emerald-500" />
             </div>
             <div>
-              <h3 className="text-lg font-extrabold text-ink">Inquiry Received</h3>
+              <h3 className="text-lg font-extrabold text-ink">Email Draft Opened</h3>
               <p className="text-xs text-ink-3 mt-1">
-                Reference ID: <strong className="font-mono text-brand">{ticketId}</strong>
+                Nothing was submitted through this website.
               </p>
             </div>
             <p className="text-xs text-ink-2 max-w-sm mx-auto leading-relaxed">
-              Your inquiry has been recorded. Our team will follow up at <strong>{formData.email}</strong> within 24 hours.
+              Review and send the draft in your email app. This website does not send your message or promise a response time.
             </p>
             <div className="pt-2">
               <button onClick={handleReset} className="btn-brand text-xs !py-2 !px-5">
@@ -153,7 +142,7 @@ export default function ContactModal({ isOpen, onClose, initialRole = 'Creator /
                 >
                   <option value="Creator / Founder">Creator / Founder</option>
                   <option value="Media Agency Executive">Agency Executive</option>
-                  <option value="Anthropic Partner / Reviewer">Anthropic Partner / Reviewer</option>
+                  <option value="Project Feedback">Project Feedback</option>
                   <option value="Investor / Media">Investor / Media</option>
                 </select>
               </div>
@@ -164,7 +153,7 @@ export default function ContactModal({ isOpen, onClose, initialRole = 'Creator /
               <textarea
                 rows={3}
                 required
-                placeholder="Describe your production workflow, team size, or custom scraper questions..."
+                placeholder="Describe your production workflow, team size, or prototype feedback..."
                 value={formData.message}
                 onChange={e => setFormData({ ...formData, message: e.target.value })}
                 className="w-full px-4 py-2.5 rounded-xl border-2 text-ink text-sm outline-none resize-none"
@@ -180,7 +169,7 @@ export default function ContactModal({ isOpen, onClose, initialRole = 'Creator /
               </button>
               <button type="submit" className="btn-brand text-xs">
                 <Send className="w-3.5 h-3.5" />
-                <span>Submit Inquiry</span>
+                <span>Open Email Draft</span>
               </button>
             </div>
           </form>
