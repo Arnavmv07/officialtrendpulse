@@ -76,7 +76,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
     if (!strategy) return;
     const md = [
       `# Content Brief: ${strategy.topic}`,
-      `**Viral Score:** ${strategy.viralPotentialScore}/100 | **Window:** ${strategy.opportunityWindow}`,
+      `Template brief. Check the facts before publishing.`,
       '',
       `## Title Options`,
       ...strategy.titleVariants.map((v, i) => `${i + 1}. **${v.title}**\n   *${v.whyItWorks}*`),
@@ -111,7 +111,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
               <span className="badge" style={{ background: '#EEF0FF', color: '#4B35E8' }}>
-                <Sparkles className="w-3 h-3" /> Template Strategy Demo
+                <Sparkles className="w-3 h-3" /> Video brief
               </span>
               <span className="badge uppercase" style={{ background: '#F6F5FF', color: '#7A788F' }}>
                 {trend.genre}
@@ -121,7 +121,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
               {trend.title}
             </h2>
           </div>
-          <button onClick={onClose}
+          <button onClick={onClose} aria-label="Close brief"
             className="p-2 rounded-xl flex-shrink-0 transition-all hover:scale-105"
             style={{ background: '#F6F5FF', color: '#7A788F' }}>
             <X className="w-5 h-5" />
@@ -154,7 +154,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
 
         {/* ── Scrollable Body ───────────────────────── */}
         <div className="flex-1 overflow-y-auto p-6 space-y-8">
-          <p className="text-xs font-bold text-brand">DEMO: Local templates, not Claude output. Scores and timing suggestions are illustrative, not predictions.</p>
+
 
           {loading ? (
             <div className="flex flex-col items-center justify-center py-24 gap-4">
@@ -169,60 +169,10 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
           ) : strategy ? (
             <>
 
-              {/* ── Score + Window banner ─────────── */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="rounded-2xl p-5 flex items-center justify-between"
-                  style={{ background: '#4B35E8' }}>
-                  <div>
-                    <p className="text-xs font-bold mb-1 opacity-80 text-white">Illustrative Demo Score</p>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-4xl font-black text-white">{strategy.viralPotentialScore}</span>
-                      <span className="text-white text-sm font-bold opacity-70">/100</span>
-                    </div>
-                  </div>
-                  <Flame className="w-10 h-10 opacity-50" style={{ color: '#C5FF00' }} />
-                </div>
-                <div className="rounded-2xl p-5 flex items-center justify-between border-2"
-                  style={{ background: '#FFFBEB', borderColor: '#FDE68A' }}>
-                  <div>
-                    <p className="text-xs font-bold mb-1" style={{ color: '#92400E' }}>Example Timing Suggestion</p>
-                    <p className="text-sm font-bold" style={{ color: '#B45309' }}>{strategy.opportunityWindow}</p>
-                  </div>
-                  <Clock className="w-8 h-8" style={{ color: '#F59E0B' }} />
-                </div>
-              </div>
-
-              {/* ── 1. Title Options ─────────────── */}
-              <div>
-                <SectionHeading number="1">High-CTR Video Titles</SectionHeading>
-                <div className="space-y-3">
-                  {strategy.titleVariants.map((v, i) => (
-                    <div key={i} className="rounded-2xl p-4 border-2 hover:border-brand transition-all group/t"
-                      style={{ borderColor: '#EEF0FF', background: '#FAFAFE' }}>
-                      <div className="flex items-start justify-between gap-2 mb-2">
-                        <span className="badge" style={{ background: '#EEF0FF', color: '#4B35E8' }}>
-                          {v.style}
-                        </span>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold font-mono" style={{ color: '#10B981' }}>
-                            Hook: {v.hookRating}%
-                          </span>
-                          <CopyBtn text={v.title} />
-                        </div>
-                      </div>
-                      <p className="font-extrabold text-base leading-snug mb-1.5" style={{ color: '#12112A' }}>
-                        {v.title}
-                      </p>
-                      <p className="text-xs leading-relaxed" style={{ color: '#7A788F' }}>{v.whyItWorks}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* ── 2. Hook ──────────────────────── */}
               <div>
                 <SectionHeading number="2">
-                  Scroll-Stopping Hook — {format === 'shortForm' ? 'Vertical Shorts / Reels' : 'YouTube Long-Form'}
+                  Opening hook: {format === 'shortForm' ? 'Vertical Shorts / Reels' : 'YouTube Long-Form'}
                 </SectionHeading>
                 <div className="rounded-2xl p-5 border-l-4 space-y-4"
                   style={{ background: '#F6F5FF', borderLeftColor: '#4B35E8' }}>
@@ -234,7 +184,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
                       <CopyBtn text={strategy.hooks[format]?.spokenHook} label="Copy Hook" />
                     </div>
                     <p className="text-base font-bold italic leading-relaxed" style={{ color: '#12112A' }}>
-                      "{strategy.hooks[format]?.spokenHook}"
+                      {strategy.hooks[format]?.spokenHook.replace(/^"|"$/g,'')}
                     </p>
                   </div>
                   <div className="grid sm:grid-cols-2 gap-3">
@@ -255,6 +205,33 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
                       </p>
                     </div>
                   </div>
+                </div>
+              </div>
+
+              {/* ── 1. Title Options ─────────────── */}
+              <div>
+                <SectionHeading number="1">Title options</SectionHeading>
+                <div className="space-y-3">
+                  {strategy.titleVariants.map((v, i) => (
+                    <div key={i} className="rounded-2xl p-4 border-2 hover:border-brand transition-all group/t"
+                      style={{ borderColor: '#EEF0FF', background: '#FAFAFE' }}>
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <span className="badge" style={{ background: '#EEF0FF', color: '#4B35E8' }}>
+                          {v.style}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-bold font-mono" style={{ color: '#10B981' }}>
+                            Title idea
+                          </span>
+                          <CopyBtn text={v.title} />
+                        </div>
+                      </div>
+                      <p className="font-extrabold text-base leading-snug mb-1.5" style={{ color: '#12112A' }}>
+                        {v.title}
+                      </p>
+                      <p className="text-xs leading-relaxed" style={{ color: '#7A788F' }}>{v.whyItWorks}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -289,12 +266,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
                         {strategy.thumbnailConcept.mainTextOverlay}
                       </p>
                     </div>
-                    <div className="text-right">
-                      <p className="text-xs font-bold" style={{ color: '#7A788F' }}>Est. CTR</p>
-                      <p className="text-xl font-black" style={{ color: '#10B981' }}>
-                        {strategy.thumbnailConcept.ctrScore}%
-                      </p>
-                    </div>
+
                   </div>
                   <p className="text-xs mb-2 leading-relaxed" style={{ color: '#3D3B5C' }}>
                     <span className="font-bold">Scene: </span>{strategy.thumbnailConcept.visualDescription}
@@ -310,12 +282,13 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
                 style={{ background: '#FFFBEB', borderColor: '#FDE68A' }}>
                 <Lightbulb className="w-5 h-5 shrink-0 mt-0.5" style={{ color: '#F59E0B' }} />
                 <div className="space-y-1 text-xs" style={{ color: '#92400E' }}>
-                  <p className="font-bold text-sm mb-2" style={{ color: '#78350F' }}>Audience & Retention Secret</p>
+                  <p className="font-bold text-sm mb-2" style={{ color: '#78350F' }}>Audience and format</p>
                   <p><span className="font-bold">Who:</span> {strategy.targetAudience.demographic}</p>
-                  <p><span className="font-bold">Why they'll stay:</span> {strategy.targetAudience.retentionSecret}</p>
+                  <p><span className="font-bold">Structure:</span> {strategy.targetAudience.retentionSecret}</p>
                 </div>
               </div>
 
+              <p className="text-xs text-ink-3 border-t border-line pt-4">This brief uses local templates, not AI. Check sources and adapt the wording before publishing. No performance prediction is made.</p>
             </>
           ) : null}
         </div>
