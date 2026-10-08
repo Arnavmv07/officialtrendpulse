@@ -6,7 +6,7 @@ const PLATFORM_BLOCKS = [
     id: 'youtube',
     icon: Youtube,
     label: 'YouTube',
-    stat: '2B+ daily queries',
+    stat: 'Sample video topics',
     tagline: 'Breakout videos, retention hooks & view-velocity radar',
     bg: '#FEF2F2', color: '#DC2626', border: '#FECACA',
     pill: '#DC2626',
@@ -15,7 +15,7 @@ const PLATFORM_BLOCKS = [
     id: 'twitter',
     icon: Twitter,
     label: 'X / Twitter',
-    stat: '500M+ daily posts',
+    stat: 'Sample discussions',
     tagline: 'Viral hashtags, controversy score & debate dynamics',
     bg: '#F0F9FF', color: '#0284C7', border: '#BAE6FD',
     pill: '#0284C7',
@@ -24,7 +24,7 @@ const PLATFORM_BLOCKS = [
     id: 'instagram',
     icon: Instagram,
     label: 'Instagram',
-    stat: '1B+ daily reels',
+    stat: 'Sample reel concepts',
     tagline: 'Trending audio surge, viral format blueprints & save rate',
     bg: '#FDF2F8', color: '#BE185D', border: '#FBCFE8',
     pill: '#BE185D',
@@ -33,7 +33,7 @@ const PLATFORM_BLOCKS = [
     id: 'reddit',
     icon: MessageSquare,
     label: 'Reddit',
-    stat: '57M daily users',
+    stat: 'Sample community topics',
     tagline: 'Deep community discussions, upvote spikes & contrarian ideas',
     bg: '#FFF7ED', color: '#C2410C', border: '#FED7AA',
     pill: '#C2410C',
@@ -64,14 +64,14 @@ export default function HeroSection({ trendCount = 0, onScrollToFeed, onPickPlat
                 style={{ borderColor: '#DDD9FF', background: '#F6F5FF' }}>
                 <span className="live-dot"></span>
                 <span className="text-xs font-bold" style={{ color: '#4B35E8' }}>
-                  {trendCount} Surging Trends Detected
+                  {trendCount} Sample Trend Cards
                 </span>
               </div>
 
               <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold"
                 style={{ background: '#12112A', color: '#C5FF00' }}>
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Powered by Anthropic Claude 3.7</span>
+                <span>Interactive Creator Prototype</span>
               </div>
             </div>
 
@@ -87,27 +87,27 @@ export default function HeroSection({ trendCount = 0, onScrollToFeed, onPickPlat
             </h1>
 
             <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0 text-ink-3">
-              TrendPulse monitors real-time velocity across <strong className="text-ink">YouTube, X, Instagram & Reddit</strong>. Using <strong className="text-brand">Claude 3.7 reasoning</strong>, it distills brewing cultural debates into scroll-stopping hooks, high-CTR titles, and retention script blueprints.
+              TrendPulse is a creator-workflow prototype with <strong className="text-ink">sample topics inspired by YouTube, X, Instagram & Reddit</strong>. Explore filters, template-based video briefs, and a browser-local idea board. Live feeds and <strong className="text-brand">Claude integration are planned, not active</strong>.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start">
               <button onClick={onScrollToFeed} className="btn-brand text-sm sm:text-base !py-3 !px-6">
-                <span>Explore Live Trend Feed</span>
+                <span>Explore Sample Trend Feed</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
-              <button onClick={onOpenTrial || onOpenContact} className="btn-outline text-sm sm:text-base !py-3 !px-5">
-                <span>Unlock 14-Day Pro Pass</span>
+              <button onClick={onOpenContact} className="btn-outline text-sm sm:text-base !py-3 !px-5">
+                <span>Contact the Builder</span>
               </button>
             </div>
 
             <div className="flex items-center justify-center lg:justify-start gap-4 mt-6 text-xs font-semibold text-ink-3">
               <span className="flex items-center gap-1">
                 <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                Zero model training on creator scripts
+                Demo runs in your browser
               </span>
               <span>•</span>
-              <span>100% IP ownership</span>
+              <span>Review ideas before publishing</span>
             </div>
 
           </div>
@@ -143,10 +143,10 @@ export default function HeroSection({ trendCount = 0, onScrollToFeed, onPickPlat
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-14 pt-8 border-t-2"
           style={{ borderColor: '#EEF0FF' }}>
           {[
-            { value: '4 Platforms', label: 'Continuous Live Monitoring' },
-            { value: 'Claude 3.7', label: 'Frontier Reasoning Engine' },
-            { value: '< 3 Seconds', label: 'Scroll-Stopping Hook Formula' },
-            { value: '2025 Founded', label: 'San Francisco, CA' },
+            { value: '4 Categories', label: 'Platform-Inspired Sample Topics' },
+            { value: 'Templates', label: 'Example Creative Briefs' },
+            { value: 'Local Board', label: 'Save Ideas in This Browser' },
+            { value: 'October 2026', label: 'Started in Pune, India' },
           ].map(s => (
             <div key={s.label} className="text-center lg:text-left">
               <p className="text-xl sm:text-2xl font-black text-brand">{s.value}</p>
