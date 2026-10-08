@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
-import AccountDashboard from './components/AccountDashboard';
 import RealTrendFeed from './components/RealTrendFeed';
 import HeroSection from './components/HeroSection';
 import StatsBanner from './components/StatsBanner';
@@ -266,7 +265,7 @@ export default function App() {
           </section>
 
           <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 py-14"><h2 className="text-3xl font-extrabold text-ink mb-6">How it works</h2><div className="grid md:grid-cols-3 gap-5">{[['01','Find a topic','Explore search activity and read the linked headlines.'],['02','Shape your angle','Use a template brief to plan your hook, outline and format.'],['03','Save your idea','Keep a local workshop board or sign in to save account ideas.']].map(([n,t,d])=><article key={n} className="card p-6"><span className="text-brand font-black">{n}</span><h3 className="font-bold mt-3">{t}</h3><p className="text-sm text-ink-3 mt-2">{d}</p></article>)}</div></section>
-          <AccountDashboard />
+
           {/* Roadmap */}
           <ClaudeArchitectureSection />
 
