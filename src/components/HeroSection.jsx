@@ -87,7 +87,7 @@ export default function HeroSection({ trendCount = 0, onScrollToFeed, onPickPlat
             </h1>
 
             <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0 text-ink-3">
-              TrendPulse is a creator-workflow prototype with <strong className="text-ink">sample topics inspired by YouTube, X, Instagram & Reddit</strong>. Explore filters, template-based video briefs, and a browser-local idea board. Live feeds and <strong className="text-brand">Claude integration are planned, not active</strong>.
+              TrendPulse is a creator-workflow prototype with <strong className="text-ink">sample topics inspired by YouTube, X, Instagram & Reddit</strong>. Explore filters, template-based video briefs, and a browser-local idea board. A separate Google Trends India feed is live below. One private <strong className="text-brand">Claude brief test has passed</strong>; public generation and social-platform feeds are not active.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start">
@@ -158,4 +158,4 @@ export default function HeroSection({ trendCount = 0, onScrollToFeed, onPickPlat
       </div>
     </section>
   );
-}
+              }
