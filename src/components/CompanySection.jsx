@@ -10,33 +10,33 @@ export default function CompanySection() {
           
           {/* Left: Mission & Details */}
           <div className="space-y-6">
-            <span className="section-label">About the Company</span>
+            <span className="section-label">About the Project</span>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight" style={{ color: '#12112A' }}>
               Building the Operating System for the Next Generation of Creators
             </h2>
             <p className="text-base leading-relaxed" style={{ color: '#3D3B5C' }}>
-              <strong>TrendPulse Technologies Inc.</strong> was founded in <strong>2025</strong> by a team of builders, engineers, and digital video producers in San Francisco, CA. We saw firsthand how creators were burning out spending 20+ hours a week sifting through social feeds trying to guess what the YouTube or TikTok algorithm wanted next.
+              <strong>TrendPulse</strong> was started in <strong>October 2026</strong> by <strong>Arnav Ramesh</strong> in <strong>Pune, India</strong>. It is an early creator-workflow project for exploring topics and organizing video ideas.
             </p>
             <p className="text-base leading-relaxed" style={{ color: '#3D3B5C' }}>
-              We believe the future of content production is AI-native: autonomous systems that monitor global cultural velocity in real-time, paired with frontier cognitive models like Anthropic's Claude to transform ambiguous discourse into compelling stories that educate and entertain.
+              The current site demonstrates eight sample trend cards, filters, template-based briefs, and a browser-local idea board. Live data collection and Claude-powered analysis are development goals; this demo does not provide them.
             </p>
 
             {/* Quick Fast Facts Badge Row */}
             <div className="grid grid-cols-3 gap-3 pt-2">
               <div className="p-3.5 rounded-2xl bg-surface border-2 text-center" style={{ borderColor: '#DDD9FF' }}>
                 <Calendar className="w-4 h-4 mx-auto mb-1 text-brand" />
-                <div className="text-[11px] font-bold text-ink-3">Founded</div>
-                <div className="text-sm font-black text-ink">2025</div>
+                <div className="text-[11px] font-bold text-ink-3">Started</div>
+                <div className="text-sm font-black text-ink">October 2026</div>
               </div>
               <div className="p-3.5 rounded-2xl bg-surface border-2 text-center" style={{ borderColor: '#DDD9FF' }}>
                 <MapPin className="w-4 h-4 mx-auto mb-1 text-brand" />
-                <div className="text-[11px] font-bold text-ink-3">HQ</div>
-                <div className="text-sm font-black text-ink">San Francisco</div>
+                <div className="text-[11px] font-bold text-ink-3">Based in</div>
+                <div className="text-sm font-black text-ink">Pune, India</div>
               </div>
               <div className="p-3.5 rounded-2xl bg-surface border-2 text-center" style={{ borderColor: '#DDD9FF' }}>
                 <Award className="w-4 h-4 mx-auto mb-1 text-brand" />
-                <div className="text-[11px] font-bold text-ink-3">Stage</div>
-                <div className="text-sm font-black text-ink">Pre-Seed / Bootstrapped</div>
+                <div className="text-[11px] font-bold text-ink-3">Builder</div>
+                <div className="text-sm font-black text-ink">Arnav Ramesh</div>
               </div>
             </div>
           </div>
@@ -56,7 +56,7 @@ export default function CompanySection() {
                 <div>
                   <h4 className="font-extrabold text-sm text-ink">Creator Ownership Above All</h4>
                   <p className="text-xs text-ink-2 mt-0.5 leading-relaxed">
-                    Creators retain 100% intellectual property of all prompts, hooks, outlines, and video concepts generated through our platform.
+                    Use this workspace to organize your ideas. Sample briefs are starting points, not guarantees of originality or performance.
                   </p>
                 </div>
               </div>
@@ -67,9 +67,9 @@ export default function CompanySection() {
                   <ShieldCheck className="w-5 h-5 text-brand" />
                 </div>
                 <div>
-                  <h4 className="font-extrabold text-sm text-ink">Zero Synthetic Deception</h4>
+                  <h4 className="font-extrabold text-sm text-ink">Clear Demo Boundaries</h4>
                   <p className="text-xs text-ink-2 mt-0.5 leading-relaxed">
-                    Strict adherence to Anthropic’s safety policies: our agents reject generation of deepfakes, unauthorized celebrity voice clones, or political misinformation.
+                    Sample metrics and template outputs are labelled as demonstrations. No live AI moderation or automated verification is active.
                   </p>
                 </div>
               </div>
@@ -80,9 +80,9 @@ export default function CompanySection() {
                   <HeartHandshake className="w-5 h-5 text-brand" />
                 </div>
                 <div>
-                  <h4 className="font-extrabold text-sm text-ink">Zero Data Selling</h4>
+                  <h4 className="font-extrabold text-sm text-ink">Browser-Local Workspace</h4>
                   <p className="text-xs text-ink-2 mt-0.5 leading-relaxed">
-                    Your unreleased video ideas and channel analytics are strictly private. We never sell creator data to advertisers or public LLM datasets.
+                    The demo idea board saves to local storage in this browser. It is not a secure cloud account; avoid entering sensitive information.
                   </p>
                 </div>
               </div>
@@ -90,7 +90,7 @@ export default function CompanySection() {
 
             <div className="pt-4 border-t-2 text-xs text-ink-3 flex items-center justify-between"
               style={{ borderColor: '#DDD9FF' }}>
-              <span>Built with pride on Anthropic Claude</span>
+              <span>Built by Arnav Ramesh in Pune</span>
               <span className="font-bold font-mono text-brand">officialtrendpulse.in</span>
             </div>
           </div>
