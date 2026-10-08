@@ -24,15 +24,15 @@ export default function ClaudeArchitectureSection() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold mb-4"
             style={{ background: '#EEF0FF', color: '#4B35E8', border: '1.5px solid #DDD9FF' }}>
             <Sparkles className="w-3.5 h-3.5 text-brand" />
-            <span>AI-NATIVE ARCHITECTURE · BUILT ON ANTHROPIC CLAUDE</span>
+            <span>DEVELOPMENT ROADMAP · NOT LIVE</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight" style={{ color: '#12112A' }}>
-            Why We Build Exclusively on Claude
+            What Works Today, What Comes Next
           </h2>
 
           <p className="mt-3 text-base sm:text-lg leading-relaxed" style={{ color: '#7A788F' }}>
-            Content creators don't need generic AI summaries. They need psychological retention hooks, deep cultural context, and contrarian angles that survive aggressive social algorithms.
+            The current prototype uses sample data and local templates. The features below describe the roadmap, not services currently available.
           </p>
         </div>
 
@@ -48,15 +48,15 @@ export default function ClaudeArchitectureSection() {
                 <Cpu className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-extrabold" style={{ color: '#12112A' }}>
-                Claude 3.7 Sonnet: Deep Creative Reasoning
+                Planned: Claude-Powered Briefs
               </h3>
               <p className="text-sm leading-relaxed" style={{ color: '#3D3B5C' }}>
-                Sonnet handles the complex cognitive lift: dissecting 2,000+ Reddit arguments or viral X discourse and distilling the exact unspoken tension that creators can use as an opening hook.
+                A future server-side integration could use Claude to help turn verified source material into creative briefs. No Claude API calls are active in this demo.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t-2 text-xs font-mono font-bold"
               style={{ borderColor: '#DDD9FF', color: '#4B35E8' }}>
-              ✓ Retention outline generation & title testing
+              Planned · Requires integration and testing
             </div>
           </div>
 
@@ -69,15 +69,15 @@ export default function ClaudeArchitectureSection() {
                 <Zap className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-extrabold" style={{ color: '#12112A' }}>
-                Claude 3.5 Haiku: Real-Time Stream Scoring
+                Planned: Verified Trend Feeds
               </h3>
               <p className="text-sm leading-relaxed" style={{ color: '#3D3B5C' }}>
-                Sub-100ms inference enables our crawlers to process thousands of incoming posts per minute, classifying topics, calculating velocity spikes, and filtering out synthetic bot noise at ultra-low latency.
+                Live sources need authorized access, timestamps, source links, and measured scoring. Current cards and metrics are illustrative sample data.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t-2 text-xs font-mono font-bold"
               style={{ borderColor: '#DDD9FF', color: '#12112A' }}>
-              ✓ High-throughput semantic deduplication
+              Planned · No live scoring yet
             </div>
           </div>
 
@@ -90,15 +90,15 @@ export default function ClaudeArchitectureSection() {
                 <Code2 className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-extrabold" style={{ color: '#12112A' }}>
-                Model Context Protocol (MCP) Connectors
+                Exploring: Source Connectors
               </h3>
               <p className="text-sm leading-relaxed" style={{ color: '#3D3B5C' }}>
-                We implement Anthropic’s open standard MCP architecture, allowing creator agents to connect directly into live YouTube RSS, Reddit API, and community discords through standardized tool calls.
+                Source connectors, including possible MCP support, are under consideration. No deployed MCP integration is available today.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t-2 text-xs font-mono font-bold"
               style={{ borderColor: '#DDD9FF', color: '#4B35E8' }}>
-              ✓ Native agentic tool use & multi-source ingestion
+              Under consideration · Not implemented
             </div>
           </div>
 
@@ -112,22 +112,22 @@ export default function ClaudeArchitectureSection() {
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#22c55e' }}></span>
                 <span className="text-xs font-mono font-bold uppercase tracking-wider" style={{ color: '#7A788F' }}>
-                  Enterprise Safety & Zero-Retention SLA
+                  CURRENT DEMO LIMITATIONS
                 </span>
               </div>
               <h3 className="text-2xl font-extrabold" style={{ color: '#12112A' }}>
-                Built in Alignment with Anthropic Commercial Terms
+                A Prototype, Not a Production Service
               </h3>
               <p className="text-sm leading-relaxed" style={{ color: '#3D3B5C' }}>
-                Unlike legacy AI tools that train on creator inputs, TrendPulse operates on Anthropic’s first-party commercial API. Customer video scripts, proprietary channel ideas, and drafts are never used to train public models.
+                This static demo provides local templates and a browser-local idea board. It has no paid checkout, user authentication, live Claude processing, or service-level agreement.
               </p>
               
               <div className="space-y-2 pt-2">
                 {[
-                  'Zero data retention for creator script drafts and private notes',
-                  '100% intellectual property ownership assigned directly to the creator',
-                  'Rigorous guardrails against misinformation and unauthorized likeness generation',
-                  'Compliant with Anthropic Supportability and Commercial Policies'
+                  'Saved ideas remain in local storage in this browser',
+                  'Review example outputs for accuracy and rights before use',
+                  'Do not enter sensitive drafts or personal information',
+                  'Live integrations require separate testing before launch'
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-center gap-2 text-xs font-semibold" style={{ color: '#12112A' }}>
                     <CheckCircle2 className="w-4 h-4 text-brand shrink-0" />
@@ -143,22 +143,20 @@ export default function ClaudeArchitectureSection() {
               <div className="flex items-center justify-between pb-3 border-b border-slate-700">
                 <span className="flex items-center gap-1.5 text-lime font-bold">
                   <Terminal className="w-3.5 h-3.5" />
-                  anthropic-agent.config.ts
+                  demo-workflow.txt
                 </span>
-                <span className="text-[10px] text-slate-400">Claude 3.7 Sonnet</span>
+                <span className="text-[10px] text-slate-400">Current demo</span>
               </div>
               <pre className="overflow-x-auto text-[11px] leading-relaxed text-slate-300">
-{`const creatorStrategyAgent = new AnthropicAgent({
-  model: "claude-3-7-sonnet-20250219",
-  temperature: 0.35,
-  systemPrompt: \`You are an elite video strategist.
-  Deconstruct the emerging social tension.
-  Identify:
-  1. The 3-second pattern interrupt hook
-  2. The cognitive dissonance title
-  3. The 5-beat retention curve\`,
-  mcpServers: [redditConnector, youtubeTrendsMcp]
-});`}
+{`Current demo:
+  Sample trend cards
+  Local template briefs
+  Browser-local idea board
+
+Planned, not active:
+  Verified source feeds
+  Server-side Claude integration
+  Tested production controls`}
               </pre>
             </div>
 
