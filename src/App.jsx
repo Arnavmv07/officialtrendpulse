@@ -16,7 +16,7 @@ import ContactModal from './components/ContactModal';
 import {
   fetchTrends, refreshCrawlers,
   fetchSavedIdeas, saveIdeaToBacklog,
-  updateSavedIdeaStatus, deleteSavedIdea,
+  updateSavedIdeaStatus, deleteSavedIdea, editSavedIdea, restoreSavedIdea,
 } from './services/api';
 import confetti from 'canvas-confetti';
 import { Sparkles, ShieldCheck, Mail, ArrowUpRight } from 'lucide-react';
@@ -30,6 +30,7 @@ export default function App() {
   const [savedIdeas, setSavedIdeas] = useState([]);
   const [modalTrend, setModalTrend] = useState(null);
   const [toast, setToast] = useState(null);
+  const [deletedIdea,setDeletedIdea]=useState(null);
 
   // Active Plan state (Free Explorer vs Creator Pro)
   const [currentPlan, setCurrentPlan] = useState('free');
@@ -109,7 +110,7 @@ export default function App() {
         titleVariant: trend.title,
         hookText: trend.sampleHook || `Wait, look at what just happened with ${trend.title}`,
         notes: trend.isRealTopic ? trend.summary : trend.summary || '', sourceUrl: trend.sourceUrl || null,
-        viralScore: null,
+        viralScore: null, contextDate:trend.publishedAt||trend.fetchedAt||null, searchVolume:trend.approximateTraffic||null, headline:trend.articles?.[0]?.title||null, sourcePublisher:trend.articles?.[0]?.publisher||null,
       });
       if (res.success) {
         setSavedIdeas(p => [res.idea, ...p]);
@@ -140,9 +141,11 @@ export default function App() {
 
   const handleDelete = async (id) => {
     try {
+      const removed=savedIdeas.find(i=>i.id===id);
       await deleteSavedIdea(id);
+      setDeletedIdea(removed);
       setSavedIdeas(p => p.filter(i => i.id !== id));
-      showToast('Removed from backlog');
+      showToast('Idea deleted. Undo is available below.');
     } catch {}
   };
 
@@ -151,10 +154,13 @@ export default function App() {
       const res = await saveIdeaToBacklog(payload);
       if (res.success) {
         setSavedIdeas(p => [res.idea, ...p]);
-        showToast('✓ Custom concept added!');
+        showToast('Idea added.');
       }
-    } catch {}
+      return true;
+    } catch {showToast('Could not save idea.');return false;}
   };
+  const handleEditIdea=async(id,patch)=>{try{await editSavedIdea(id,patch);setSavedIdeas(p=>p.map(i=>i.id===id?{...i,...patch}:i));showToast('Hook saved.');return true;}catch{showToast('Could not save hook.');return false;}};
+  const undoDelete=async()=>{try{await restoreSavedIdea(deletedIdea);setSavedIdeas(p=>p.some(i=>i.id===deletedIdea.id)?p:[deletedIdea,...p]);setDeletedIdea(null);showToast('Idea restored.');}catch{showToast('Could not restore idea.');}};
 
   const showToast = (msg) => {
     setToast(msg);
@@ -183,6 +189,7 @@ export default function App() {
   return (
     <div className="min-h-screen" style={{ background: '#F6F5FF', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
 
+      {deletedIdea&&<div role="status" className="fixed bottom-4 left-4 right-4 sm:right-auto z-[60] bg-white border border-line rounded-xl shadow-xl p-4 flex gap-4 items-center text-sm"><span>Idea deleted</span><button className="text-brand font-bold" onClick={undoDelete}>Undo</button><button aria-label="Dismiss undo" onClick={()=>setDeletedIdea(null)}>Dismiss</button></div>}
       {/* Floating Toast notification */}
       {toast && (
         <div className="fixed bottom-6 right-6 z-50 toast-enter">
@@ -287,7 +294,8 @@ export default function App() {
             onUpdateStatus={handleUpdateStatus}
             onDeleteIdea={handleDelete}
             onAddNewIdea={handleAddCustom}
-            onSwitchToFeed={() => setActiveTab('feed')}
+            onEditIdea={handleEditIdea}
+            onSwitchToFeed={() => {window.location.hash='real-feed';setActiveTab('feed');}}
           />
         </div>
       )}
@@ -320,4 +328,4 @@ export default function App() {
 
     </div>
   );
-      }
+}
