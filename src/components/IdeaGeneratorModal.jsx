@@ -4,6 +4,7 @@ import {
   Flame, Clock, Lightbulb, ChevronRight, Zap
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import {authClient,addCreatorIdea} from '../services/dashboard';
 import { generateClientClaudeStrategy } from '../services/claudeEngine.js';
 
 /* ── Section heading helper ───────────────────────────── */
@@ -45,6 +46,8 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
   const [format, setFormat] = useState('shortForm');
   const [tone, setTone] = useState('engaging');
   const [savedLocally, setSavedLocally] = useState(isSaved);
+  const [accountUser,setAccountUser]=useState(null),[accountMessage,setAccountMessage]=useState('');
+  useEffect(()=>{if(authClient)authClient.auth.getUser().then(({data})=>setAccountUser(data.user));setAccountMessage('');},[isOpen]);
 
   useEffect(() => {
     if (isOpen && trend) { setStrategy(null); setSavedLocally(isSaved); fetchStrategy(); }
@@ -58,18 +61,18 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
     finally { setLoading(false); }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!strategy) return;
     try { confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } }); } catch {}
-    onSaveToBacklog({
+    const saved = await onSaveToBacklog({
       topic: strategy.topic, genre: strategy.genre,
       targetPlatform: trend.platform || 'youtube',
       titleVariant: strategy.titleVariants[0]?.title || strategy.topic,
       hookText: strategy.hooks[format]?.spokenHook,
-      viralScore: strategy.viralPotentialScore,
-      notes: `Format: ${format} | Thumbnail: "${strategy.thumbnailConcept.mainTextOverlay}"`,
+      viralScore: null, sourceUrl: trend.sourceUrl || null,
+      notes: (trend.isRealTopic ? trend.summary + "\n" : "") + `Format: ${format} | Thumbnail: "${strategy.thumbnailConcept.mainTextOverlay}"`,
     });
-    setSavedLocally(true);
+    if (saved !== false) setSavedLocally(true);
   };
 
   const exportMarkdown = () => {
@@ -144,6 +147,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
 
         {/* ── Scrollable Body ───────────────────────── */}
         <div className="flex-1 overflow-y-auto p-6 space-y-8">
+{accountUser&&trend.isRealTopic&&<div className="text-sm"><button className="btn-outline" onClick={async()=>{try{await addCreatorIdea({topic:trend.title,hook:strategy?.hooks[format]?.spokenHook||trend.sampleHook,notes:trend.summary,source_url:trend.sourceUrl});setAccountMessage('Saved in your private account dashboard. Reload the dashboard to see it.');}catch{setAccountMessage('Could not save to your account. Please try again.');}}}>Save to account dashboard</button><p role="status" className="mt-2">{accountMessage}</p></div>}{trend.isRealTopic&&<aside className="bg-surface rounded-xl p-4 text-sm"><p className="font-bold text-brand">Source-backed topic, rule-based brief</p><p className="mt-2">Original topic: {trend.originalTitle}. Read these sources before publishing. The outline is a template, not a verified script.</p>{trend.articles?.map(a=><a key={a.url} className="block text-brand mt-2" target="_blank" rel="noopener noreferrer" href={a.url}>{a.title} ({a.publisher})</a>)}</aside>}
 
 
           {loading ? (
@@ -303,7 +307,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
               className={savedLocally ? 'btn-outline !cursor-default' : 'btn-brand'}
             >
               <Bookmark className="w-4 h-4" />
-              {savedLocally ? 'Saved to Studio ✓' : 'Save to Creator Studio'}
+              {savedLocally ? 'Saved to Idea board ✓' : 'Save to Idea board'}
             </button>
           </div>
         </div>
@@ -311,4 +315,4 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
       </div>
     </div>
   );
-      }
+}
