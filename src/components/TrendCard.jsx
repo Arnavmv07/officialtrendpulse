@@ -132,6 +132,7 @@ export default function TrendCard({ trend, onGenerateStrategy, onQuickSave, isSa
         </div>
 
         {/* Title */}
+        <span className="inline-block text-[10px] font-bold text-brand mb-2">SAMPLE CARD · METRICS ARE ILLUSTRATIVE</span>
         <h3 className="font-extrabold text-base leading-snug line-clamp-2 group-hover:text-brand transition-colors"
           style={{ color: '#12112A' }}>
           {title}
