@@ -361,7 +361,6 @@ export default function App() {
               <ul className="space-y-1.5 text-ink-3">
                 <li><a href="#about" className="hover:text-brand">About Us</a></li>
                 <li><button onClick={() => { setContactModalRole('Creator / Founder'); setContactModalOpen(true); }} className="hover:text-brand">Request Pilot / Contact</button></li>
-                <li><span className="text-brand font-semibold">Claude for Startups Applicant</span></li>
               </ul>
             </div>
 
