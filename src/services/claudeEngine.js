@@ -4,14 +4,14 @@
 const examples = [
  ['phone-buying','tech','youtube','How to compare a phone launch without the hype','Start with battery, repair costs and the features you actually use.','Before you upgrade, compare these three everyday trade-offs.'],
  ['upi-safety','finance','youtube','UPI safety: five checks before you tap Pay','A practical checklist for checking the recipient, amount and unexpected collect requests.','That payment request may look familiar. Check the name and amount first.'],
- ['ipl-explainer','entertainment','twitter','IPL tactics: explain one over that changed the match','Use a scorecard and your own analysis to show field placement, risk and momentum.','One over can change the story. Here is how to break it down.'],
+ ['ipl-explainer','sports','twitter','IPL tactics: explain one over that changed the match','Use a scorecard and your own analysis to show field placement, risk and momentum.','One over can change the story. Here is how to break it down.'],
  ['bollywood-budget','entertainment','twitter','Bollywood box office: budget is not the whole story','Explain reported budget, gross, distributor share and why different reports can disagree.','A box-office headline is only one number. What does it leave out?'],
  ['pune-workday','lifestyle','instagram','A realistic creator workday in Pune','Show the research, commute, edit and revision instead of a staged routine.','Here is the unglamorous part of making one useful video.'],
  ['mobile-gaming','gaming','reddit','Budget-phone gaming: settings that improve readability','Compare a busy scene with lower effects and clearer contrast using your own footage.','Better graphics do not always make a game easier to read.'],
  ['protein-meals','fitness','reddit','Protein on an Indian grocery budget','Compare familiar foods and read labels. Avoid one-size-fits-all health claims.','Before you buy a supplement, compare what is already in your kitchen.'],
  ['festival-video','lifestyle','instagram','Film a festival story without filming strangers up close','Build a short sequence with public scenes, details and permission-based portraits.','You can tell a festival story without turning strangers into your subject.']
 ];
-export const FALLBACK_TRENDS=examples.map(([id,genre,platform,title,summary,sampleHook])=>({id,genre,platform,title,summary,sampleHook,sourceUrl:null,community:'Workshop example',author:'@trendpulse_demo_creator',metrics:{},status:'Example',thumbnail:null,publishedAt:null}));
+export const FALLBACK_TRENDS=examples.map(([id,genre,platform,title,summary,sampleHook])=>({id,genre,platform,title,summary,sampleHook,sourceUrl:null,community:'Workshop example',author:'@trendpulse_demo_creator',metrics:{},status:'Example',thumbnail:null,publishedAt:null,format:platform==='twitter'?'Commentary thread':platform==='instagram'?'Reel':platform==='reddit'?'Discussion video':'Explainer video'}));
 
 export function generateClientClaudeStrategy(trend,preferences={}) {
  const topic=trend.title||'Your topic'; const hook=(trend.sampleHook||'Here is one practical way to understand '+topic).replace(/^"|"$/g,'');
