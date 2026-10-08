@@ -106,10 +106,10 @@ export default function CreatorBacklog({ savedIdeas, onUpdateStatus, onDeleteIde
       <div className="card p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="section-label">Production Studio</span>
+            <span className="section-label">Your saved ideas</span>
           </div>
           <h2 className="text-2xl font-extrabold" style={{ color: '#12112A' }}>
-            Creator Kanban Board
+            Idea board
           </h2>
           <p className="text-sm mt-1" style={{ color: '#7A788F' }}>
             Manage your video pipeline from idea to published.
