@@ -5,7 +5,7 @@ export default async function handler(req,res){
  const email=typeof data.email==='string'?data.email.trim().toLowerCase():'';
  if(data.website) return res.status(200).json({success:true});
  if(email.length>254||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return res.status(400).json({success:false,error:'Enter a valid email address.'});
- const url=process.env.VITE_SUPABASE_URL, key=process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+ const url=process.env.VITE_SUPABASE_URL || 'https://rlcveajqebuozmnugaph.supabase.co', key=process.env.VITE_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_i56PjD_-DP57aVCSYSss-w_5PrUHuz3';
  if(!url||!key)return res.status(503).json({success:false,error:'The request form is not available yet.'});
  try{const result=await fetch(url+'/rest/v1/rpc/request_early_access',{method:'POST',headers:{apikey:key,Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify({address:email}),signal:AbortSignal.timeout(8000)});
  if(!result.ok)throw Error();
