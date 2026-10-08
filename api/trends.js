@@ -11,6 +11,10 @@ const safeUrl = value => {
   try { const u = new URL(value); return ['http:', 'https:'].includes(u.protocol) ? u.href : ''; }
   catch { return ''; }
 };
+export const safeFeedImage = value => {
+  try { const u = new URL(value); return u.protocol === 'https:' && !u.username && !u.password && /^encrypted-tbn[0-9]+\.gstatic\.com$/.test(u.hostname) ? u.href : ''; }
+  catch { return ''; }
+};
 const first = v => Array.isArray(v) ? v[0] : v;
 export async function parseTrends(xml, fetchedAt = new Date().toISOString()) {
   const feed = await parser.parseString(xml);
@@ -27,7 +31,7 @@ export async function parseTrends(xml, fetchedAt = new Date().toISOString()) {
       title, source: 'Google Trends', region: 'India', sourceUrl: SOURCE,
       publishedAt: Number.isFinite(timestamp) ? new Date(timestamp).toISOString() : null,
       fetchedAt, approximateTraffic: text(item['ht:approx_traffic']) || null,
-      thumbnail: safeUrl(item['ht:picture']), articles,
+      thumbnail: safeFeedImage(item['ht:picture']), thumbnailSource: 'Google Trends RSS image', articles,
     };
   }).filter(item => item.title);
   if (!items.length) throw new Error('Source returned no items');
