@@ -4,6 +4,7 @@ import {
   Flame, Clock, Lightbulb, ChevronRight, Zap
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { generateClientClaudeStrategy } from '../services/claudeEngine.js';
 
 /* ── Section heading helper ───────────────────────────── */
 function SectionHeading({ number, children }) {
@@ -52,13 +53,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
   const fetchStrategy = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/ideas/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ trend, customPreferences: { tone } }),
-      });
-      const data = await res.json();
-      if (data.success) setStrategy(data.strategy);
+      setStrategy(generateClientClaudeStrategy(trend, { tone }));
     } catch (e) { console.error(e); }
     finally { setLoading(false); }
   };
@@ -116,7 +111,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
               <span className="badge" style={{ background: '#EEF0FF', color: '#4B35E8' }}>
-                <Sparkles className="w-3 h-3" /> AI Strategy Generator
+                <Sparkles className="w-3 h-3" /> Template Strategy Demo
               </span>
               <span className="badge uppercase" style={{ background: '#F6F5FF', color: '#7A788F' }}>
                 {trend.genre}
@@ -159,6 +154,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
 
         {/* ── Scrollable Body ───────────────────────── */}
         <div className="flex-1 overflow-y-auto p-6 space-y-8">
+          <p className="text-xs font-bold text-brand">DEMO: Local templates, not Claude output. Scores and timing suggestions are illustrative, not predictions.</p>
 
           {loading ? (
             <div className="flex flex-col items-center justify-center py-24 gap-4">
@@ -167,7 +163,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
                 <Sparkles className="w-7 h-7 animate-spin" style={{ color: '#4B35E8' }} />
               </div>
               <p className="text-sm font-semibold" style={{ color: '#7A788F' }}>
-                Building your viral strategy...
+                Preparing your template demo brief...
               </p>
             </div>
           ) : strategy ? (
@@ -178,7 +174,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
                 <div className="rounded-2xl p-5 flex items-center justify-between"
                   style={{ background: '#4B35E8' }}>
                   <div>
-                    <p className="text-xs font-bold mb-1 opacity-80 text-white">Viral Potential Score</p>
+                    <p className="text-xs font-bold mb-1 opacity-80 text-white">Illustrative Demo Score</p>
                     <div className="flex items-baseline gap-2">
                       <span className="text-4xl font-black text-white">{strategy.viralPotentialScore}</span>
                       <span className="text-white text-sm font-bold opacity-70">/100</span>
@@ -189,7 +185,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
                 <div className="rounded-2xl p-5 flex items-center justify-between border-2"
                   style={{ background: '#FFFBEB', borderColor: '#FDE68A' }}>
                   <div>
-                    <p className="text-xs font-bold mb-1" style={{ color: '#92400E' }}>Opportunity Window</p>
+                    <p className="text-xs font-bold mb-1" style={{ color: '#92400E' }}>Example Timing Suggestion</p>
                     <p className="text-sm font-bold" style={{ color: '#B45309' }}>{strategy.opportunityWindow}</p>
                   </div>
                   <Clock className="w-8 h-8" style={{ color: '#F59E0B' }} />
