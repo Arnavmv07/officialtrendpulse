@@ -15,7 +15,7 @@ export const FALLBACK_TRENDS = [
     status: 'Peak Viral',
     summary: 'Deep benchmark comparing frontier reasoning models against human PR review cycles. Huge audience appetite for actionable developer workflows rather than generic AI hype.',
     sampleHook: '"They told us AI coding was plateauing... until this benchmark dropped."',
-    thumbnail: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
+    thumbnail: null,
     publishedAt: new Date(Date.now() - 3600000 * 4).toISOString()
   },
   {
@@ -35,7 +35,7 @@ export const FALLBACK_TRENDS = [
       retweets: '4,890'
     },
     summary: 'Massive viral debate on X discussing whether software engineer hiring will shift 100% to systems design and prompt verification.',
-    thumbnail: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=80',
+    thumbnail: null,
     publishedAt: new Date(Date.now() - 3600000 * 2).toISOString()
   },
   {
@@ -52,7 +52,7 @@ export const FALLBACK_TRENDS = [
     status: 'Peak Viral',
     sampleHook: '"No aesthetic morning routine. No 5 AM ice bath. Here is what building an AI company actually looked like today."',
     summary: 'Viewers are fatigued by fake billionaire morning routines. Honest, realistic productivity with relatable struggles is going viral across Instagram.',
-    thumbnail: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&auto=format&fit=crop&q=80',
+    thumbnail: null,
     publishedAt: new Date(Date.now() - 3600000 * 6).toISOString()
   },
   {
@@ -66,7 +66,7 @@ export const FALLBACK_TRENDS = [
     metrics: { upvotes: 3840, comments: 840, velocityScore: 89, engagementRate: '8.4%' },
     status: 'Brewing Fast',
     summary: 'Gamers are noticing modern hyper-detailed graphics make gameplay unreadable compared to stylized art. Creators can compare gameplay clarity across generations.',
-    thumbnail: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&auto=format&fit=crop&q=80',
+    thumbnail: null,
     publishedAt: new Date(Date.now() - 3600000 * 8).toISOString()
   },
   {
@@ -82,7 +82,7 @@ export const FALLBACK_TRENDS = [
     status: 'Peak Viral',
     summary: 'Treasury yields, bank interest rates, and macro liquidity explained simply. High search volume and high CPM financial audience.',
     sampleHook: '"If you still have more than $5,000 sitting in a normal bank checking account, you are literally losing $200 a month."',
-    thumbnail: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=80',
+    thumbnail: null,
     publishedAt: new Date(Date.now() - 3600000 * 10).toISOString()
   },
   {
@@ -96,7 +96,7 @@ export const FALLBACK_TRENDS = [
     metrics: { upvotes: 2910, comments: 620, velocityScore: 88, engagementRate: '7.8%' },
     status: 'Brewing Fast',
     summary: 'Comprehensive analysis debunking expensive supplement marketing with practical whole food meal timing protocols.',
-    thumbnail: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=800&auto=format&fit=crop&q=80',
+    thumbnail: null,
     publishedAt: new Date(Date.now() - 3600000 * 12).toISOString()
   },
   {
@@ -116,7 +116,7 @@ export const FALLBACK_TRENDS = [
       retweets: '8,400'
     },
     summary: 'Pop culture commentators dissecting why organic grass-roots thrillers consistently crush bloated CGI sequels.',
-    thumbnail: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&auto=format&fit=crop&q=80',
+    thumbnail: null,
     publishedAt: new Date(Date.now() - 3600000 * 14).toISOString()
   },
   {
@@ -133,7 +133,7 @@ export const FALLBACK_TRENDS = [
     status: 'Brewing Fast',
     sampleHook: '"My screen time dropped from 7 hours to 28 minutes. Here is the uncomfortable truth about dopamine detoxing."',
     summary: 'Huge Gen-Z interest in intentional technology habits. High save-rate educational content.',
-    thumbnail: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&auto=format&fit=crop&q=80',
+    thumbnail: null,
     publishedAt: new Date(Date.now() - 3600000 * 16).toISOString()
   }
 ];
