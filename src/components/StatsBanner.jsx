@@ -4,32 +4,32 @@ import { TrendingUp, Flame, Zap, Sparkles } from 'lucide-react';
 const stats = [
   {
     icon: TrendingUp,
-    label: 'Tracked Trends',
+    label: 'Sample Cards',
     valueKey: 'total',
     accent: '#4B35E8',
     bg: '#EEF0FF',
-    note: 'Active Now',
+    note: 'Demo',
   },
   {
     icon: Flame,
-    label: 'Peak Viral',
+    label: 'Sample Peak Viral',
     valueKey: 'peakViral',
     accent: '#EF4444',
     bg: '#FEF2F2',
-    note: 'Max Reach',
+    note: 'Demo',
     pulse: true,
   },
   {
     icon: Zap,
-    label: 'Brewing (Best Timing)',
+    label: 'Sample Brewing',
     valueKey: 'brewing',
     accent: '#F59E0B',
     bg: '#FFFBEB',
-    note: 'Sweet Spot',
+    note: 'Demo',
   },
   {
     icon: Sparkles,
-    label: 'Top Velocity Score',
+    label: 'Sample Velocity Score',
     valueKey: 'topScore',
     accent: '#10B981',
     bg: '#ECFDF5',
@@ -39,7 +39,7 @@ const stats = [
 
 export default function StatsBanner({ trends = [] }) {
   const total = trends.length;
-  const peakViral = trends.filter(t => t.status === 'Peak Viral').length;
+  const peakViral = trends.filter(t => t.status === 'Sample Peak Viral').length;
   const brewing = trends.filter(t => t.status === 'Brewing Fast').length;
   const topScore = trends[0]?.metrics?.velocityScore ?? 0;
 
