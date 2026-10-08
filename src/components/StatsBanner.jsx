@@ -39,7 +39,7 @@ const stats = [
 
 export default function StatsBanner({ trends = [] }) {
   const total = trends.length;
-  const peakViral = trends.filter(t => t.status === 'Sample Peak Viral').length;
+  const peakViral = trends.filter(t => t.status === 'Peak Viral').length;
   const brewing = trends.filter(t => t.status === 'Brewing Fast').length;
   const topScore = trends[0]?.metrics?.velocityScore ?? 0;
 
