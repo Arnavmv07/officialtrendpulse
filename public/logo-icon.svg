@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5B45F8"/>
+      <stop offset="50%" stop-color="#4B35E8"/>
+      <stop offset="100%" stop-color="#311FB8"/>
+    </linearGradient>
+
+    <!-- Lime Gradient for Bolt -->
+    <linearGradient id="limeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E2FF66"/>
+      <stop offset="60%" stop-color="#C5FF00"/>
+      <stop offset="100%" stop-color="#AEE800"/>
+    </linearGradient>
+
+    <!-- Soft Drop Shadow for Icon Body -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="24" stdDeviation="32" flood-color="#120D45" flood-opacity="0.35"/>
+    </filter>
+
+    <!-- Glow for the Lightning Pulse -->
+    <filter id="limeGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#C5FF00" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Squircle / Rounded App Icon Base -->
+  <rect x="72" y="72" width="880" height="880" rx="230" fill="url(#purpleGrad)" filter="url(#shadow)"/>
+
+  <!-- Subtle Inner Border Highlight -->
+  <rect x="73" y="73" width="878" height="878" rx="229" fill="none" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="6"/>
+
+  <!-- Lightning Pulse Glyph -->
+  <path d="M552 176 L284 532 C276 544 284 560 300 560 L496 560 L448 832 C444 852 468 864 480 848 L744 492 C752 480 744 464 728 464 L532 464 L580 192 C584 172 560 160 552 176 Z" 
+        fill="url(#limeGrad)" 
+        filter="url(#limeGlow)" />
+</svg>

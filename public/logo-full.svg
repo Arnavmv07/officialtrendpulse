@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 400" width="1400" height="400">
+  <defs>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5B45F8"/>
+      <stop offset="50%" stop-color="#4B35E8"/>
+      <stop offset="100%" stop-color="#311FB8"/>
+    </linearGradient>
+
+    <linearGradient id="limeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E2FF66"/>
+      <stop offset="60%" stop-color="#C5FF00"/>
+      <stop offset="100%" stop-color="#AEE800"/>
+    </linearGradient>
+
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#120D45" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Left Icon Mark -->
+  <g transform="translate(60, 60)">
+    <rect width="280" height="280" rx="72" fill="url(#purpleGrad)" filter="url(#shadow)"/>
+    <rect width="278" height="278" rx="71" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="3"/>
+    <!-- Bolt scaled down -->
+    <path d="M152 48 L76 148 C73 152 76 156 80 156 L136 156 L122 232 C121 238 128 241 131 237 L208 136 C210 132 208 128 204 128 L148 128 L160 52 C161 46 154 43 152 48 Z" 
+          fill="url(#limeGrad)"/>
+  </g>
+
+  <!-- Wordmark "TrendPulse" -->
+  <text x="390" y="235" 
+        font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" 
+        font-weight="900" 
+        font-size="124" 
+        letter-spacing="-3" 
+        fill="#12112A">Trend<tspan fill="#4B35E8">Pulse</tspan></text>
+
+  <!-- AI Badge Pill -->
+  <g transform="translate(1080, 140)">
+    <rect width="105" height="52" rx="26" fill="#C5FF00"/>
+    <text x="52" y="37" 
+          font-family="'Plus Jakarta Sans', system-ui, sans-serif" 
+          font-weight="900" 
+          font-size="28" 
+          letter-spacing="1" 
+          fill="#12112A" 
+          text-anchor="middle">AI</text>
+  </g>
+
+  <!-- Subtitle Tagline -->
+  <text x="395" y="295" 
+        font-family="'Plus Jakarta Sans', system-ui, sans-serif" 
+        font-weight="700" 
+        font-size="24" 
+        letter-spacing="5" 
+        fill="#7A788F">TREND INTELLIGENCE OS</text>
+</svg>
