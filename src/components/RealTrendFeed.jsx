@@ -1,56 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { ExternalLink, RefreshCw, Search } from 'lucide-react';
-
-function SourceImage({ item }) {
-  const [failed, setFailed] = useState(false);
-  if (!item.thumbnail || failed) return <div className="rounded-xl bg-surface p-5 text-xs text-ink-3">Source image unavailable</div>;
-  return <figure><img src={item.thumbnail} alt={'Image supplied by Google Trends for ' + item.title} className="w-full h-40 object-contain rounded-xl bg-surface" loading="lazy" referrerPolicy="no-referrer" onError={() => setFailed(true)} /><figcaption className="text-[10px] text-ink-3 mt-1">Image supplied by Google Trends for this topic. Not a TrendPulse illustration. External image may be unavailable.</figcaption></figure>;
-}
-
-const formatTime = value => value ? new Date(value).toLocaleString() : 'Not provided';
-export default function RealTrendFeed() {
-  const [result, setResult] = useState(null);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
-  const load = async () => {
-    setLoading(true); setError('');
-    try {
-      const response = await fetch('/api/trends');
-      if (!response.ok) throw new Error('Source unavailable');
-      const data = await response.json();
-      if (!data.success || !Array.isArray(data.items)) throw new Error('Invalid source response');
-      setResult(data);
-    } catch { setError('Google Trends is unavailable. No sample data has been substituted.'); }
-    finally { setLoading(false); }
-  };
-  useEffect(() => { load(); }, []);
-  const items = (result?.items || []).filter(item => item.title.toLowerCase().includes(search.toLowerCase()));
-  return <section id="real-feed" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
-    <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
-      <div>
-        <span className="section-label">REAL SOURCE FEED · INDIA</span>
-        <h2 className="text-3xl font-extrabold text-ink mt-2">Google Search Trends</h2>
-        <p className="text-sm text-ink-3 mt-2">Topics from Google Trends India RSS, not YouTube or social-platform rankings. Source data is cached for up to one hour.</p>
-        <p className="text-xs text-ink-3 mt-1">Approximate traffic is Google's feed value, not a TrendPulse audience or performance prediction. No AI scoring is applied.</p>
-        {result && <p className="text-xs text-ink-3 mt-2">Fetched: {formatTime(result.fetchedAt)}{error ? ' · Previously fetched data shown below' : ''}</p>}
-      </div>
-      <button className="btn-outline text-xs shrink-0" onClick={load} disabled={loading}><RefreshCw className="w-4 h-4" />{loading ? 'Loading...' : 'Check Feed'}</button>
-    </div>
-    <div className="relative mb-5"><Search className="absolute left-4 top-3.5 w-4 h-4 text-ink-3" /><input aria-label="Search real Google Trends topics" placeholder="Search these source topics..." value={search} onChange={e => setSearch(e.target.value)} className="w-full pl-11 pr-4 py-3 rounded-2xl border-2 border-line bg-white text-sm" /></div>
-    {error && <p role="alert" className="rounded-2xl p-4 bg-amber-50 text-amber-800 text-sm mb-5">{error}</p>}
-    {loading && !result && <p className="text-sm text-ink-3 py-8">Loading Google Trends...</p>}
-    {!loading && result && !items.length && <p className="text-sm text-ink-3 py-8">No source topics match this search.</p>}
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {items.map(item => <article key={item.id} className="card p-5 space-y-3">
-        <span className="text-[10px] font-bold text-brand">SOURCE DATA · GOOGLE TRENDS · INDIA</span>
-        <h3 className="text-lg font-extrabold text-ink">{item.title}</h3>
-        <SourceImage item={item} />
-        <p className="text-sm text-ink-2">Approximate traffic: <strong>{item.approximateTraffic || 'Not provided'}</strong></p>
-        <p className="text-xs text-ink-3">Source published: {formatTime(item.publishedAt)}</p>
-        {item.articles.length > 0 && <div className="space-y-2 pt-2 border-t border-line"><p className="text-xs font-bold text-ink-3">Related headlines supplied by the feed</p>{item.articles.map(article => <a key={article.url} href={article.url} target="_blank" rel="noopener noreferrer" className="block text-xs text-brand hover:underline">{article.title}<span className="block text-ink-3 mt-0.5">{article.publisher}</span></a>)}</div>}
-        <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-bold text-brand">Open source feed<ExternalLink className="w-3 h-3" /></a>
-      </article>)}
-    </div>
-  </section>;
-}
+import React,{useEffect,useState} from 'react';
+import {RefreshCw,ExternalLink} from 'lucide-react';
+import {enrichTrend} from '../../lib/trend-labels';
+function Image({item}){const [failed,setFailed]=useState(false);return item.thumbnail&&!failed?<img src={item.thumbnail} alt={'Source image for '+item.englishLabel} className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover bg-surface shrink-0" loading="lazy" referrerPolicy="no-referrer" onError={()=>setFailed(true)}/>:null;}
+export default function RealTrendFeed(){const [result,setResult]=useState(null),[error,setError]=useState(''),[loading,setLoading]=useState(true),[search,setSearch]=useState(''),[hideNews,setHideNews]=useState(false);
+const load=async()=>{setLoading(true);setError('');try{const res=await fetch('/api/trends');if(!res.ok)throw Error();const data=await res.json();if(!data.success||!Array.isArray(data.items))throw Error();setResult(data);}catch{setError('Google Trends is unavailable. No sample data has been substituted.');}finally{setLoading(false);}};
+useEffect(()=>{load();},[]);
+const items=(result?.items||[]).map(enrichTrend).filter(x=>(!hideNews||!['Politics','News'].includes(x.category))&&[x.title,x.englishLabel,x.category].join(' ').toLowerCase().includes(search.toLowerCase()));
+return <section id="real-feed" className="max-w-7xl mx-auto px-4 sm:px-6 py-12"><div className="flex flex-wrap justify-between gap-4 items-end mb-6"><div className="max-w-2xl"><span className="section-label">Google Trends · India</span><h2 className="text-3xl font-extrabold text-ink mt-3">Today's topics. Your next angle.</h2><p className="text-sm text-ink-2 mt-3 leading-relaxed">Public Google search topics, with related headlines and a starting angle for your video.</p><p className="text-xs text-ink-3 mt-2 leading-relaxed">Cached up to one hour. Traffic is Google's estimate. Labels are transliterations; categories and angles use simple topic rules, not AI. Images come from the source and are omitted if unavailable.</p>{result&&<p className="text-xs text-ink-3 mt-2">Fetched {new Date(result.fetchedAt).toLocaleString()}{error?' · Showing the last fetched feed':''} · <a href={result.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-brand">Source RSS</a></p>}</div><button onClick={load} disabled={loading} className="btn-outline text-xs"><RefreshCw className="w-4 h-4"/>{loading?'Loading...':'Check feed'}</button></div><div className="flex flex-wrap gap-4 items-center mb-5"><input aria-label="Search topics" className="p-3 rounded-xl border border-line bg-white flex-1 min-w-48" placeholder="Search a topic or category" value={search} onChange={e=>setSearch(e.target.value)}/><label className="text-sm flex items-center gap-2"><input type="checkbox" checked={hideNews} onChange={e=>setHideNews(e.target.checked)}/>Hide news and politics</label></div>{error&&<p role="alert" className="bg-amber-50 text-amber-900 rounded-xl p-4 mb-4 text-sm">{error}</p>}{loading&&!result&&<p>Loading today's topics...</p>}{!loading&&result&&!items.length&&<p className="text-ink-3">No topics match this filter.</p>}<div className="grid md:grid-cols-2 gap-4">{items.map(item=><article key={item.id} className="card p-5"><div className="flex gap-4"><Image item={item}/><div className="min-w-0"><span className="badge bg-surface text-brand">{item.category}</span><h3 className="text-base sm:text-lg font-extrabold mt-2 text-ink capitalize">{item.englishLabel}</h3>{item.englishLabel!==item.title&&<p className="text-xs text-ink-3 mt-1">{item.title}</p>}<p className="text-xs text-ink-3 mt-2">{item.approximateTraffic||'Traffic not provided'} searches{item.publishedAt?' · '+new Date(item.publishedAt).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}):''}</p></div></div><p className="text-sm text-ink-2 mt-4"><strong className="text-brand">Video angle: </strong>{item.videoAngle}</p>{item.articles?.length>0&&<details className="mt-4 text-xs border-t border-line pt-3"><summary className="cursor-pointer text-brand font-bold">Read the source headlines</summary><div className="space-y-3 mt-3">{item.articles.map(a=><a key={a.url} href={a.url} target="_blank" rel="noopener noreferrer" className="block text-ink-2 hover:text-brand">{a.title}<span className="block text-ink-3 mt-1">{a.publisher}<ExternalLink className="inline w-3 h-3 ml-1"/></span></a>)}</div></details>}</article>)}</div></section>}
