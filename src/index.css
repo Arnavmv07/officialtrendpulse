@@ -197,3 +197,5 @@ body {
   color: #fff;
   box-shadow: 0 4px 16px rgba(75,53,232,0.3);
 }
+
+section[id], #studio { scroll-margin-top: 96px; }
