@@ -8,6 +8,7 @@ export default function Header({
   isRefreshing, 
   crawlerStatus, 
   savedCount,
+  activePlan = 'free',
   onOpenContact,
   onOpenCompliance
 }) {
