@@ -45,7 +45,7 @@ export default function ContactModal({ isOpen, onClose, initialRole = 'Creator /
             </div>
             <h2 className="text-2xl font-extrabold text-ink">Connect with TrendPulse</h2>
             <p className="text-xs text-ink-3 mt-1">
-              Questions or feedback about this prototype. The mailbox is being set up; delivery is not yet confirmed.
+              Questions or feedback about this prototype. Open an email draft to the founder, then review and send it in your email app.
             </p>
           </div>
           <button onClick={onClose} className="p-2 rounded-xl hover:bg-surface text-ink-3 hover:text-ink cursor-pointer">
