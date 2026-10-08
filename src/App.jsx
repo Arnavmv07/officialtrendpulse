@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
+import AccountDashboard from './components/AccountDashboard';
 import RealTrendFeed from './components/RealTrendFeed';
 import HeroSection from './components/HeroSection';
 import StatsBanner from './components/StatsBanner';
@@ -223,6 +224,7 @@ export default function App() {
           />
 
           <RealTrendFeed />
+      <AccountDashboard />
 
           {/* Section Divider */}
           <div style={{ height: '2px', background: 'linear-gradient(to right, #EEF0FF, #DDD9FF, #EEF0FF)' }} />
