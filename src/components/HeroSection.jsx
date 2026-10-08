@@ -40,7 +40,7 @@ const PLATFORM_BLOCKS = [
   },
 ];
 
-export default function HeroSection({ trendCount = 0, onScrollToFeed, onPickPlatform, onOpenContact }) {
+export default function HeroSection({ trendCount = 0, onScrollToFeed, onPickPlatform, onOpenTrial, onOpenContact }) {
   return (
     <section className="relative overflow-hidden" style={{ background: '#FFFFFF' }}>
 
@@ -96,8 +96,8 @@ export default function HeroSection({ trendCount = 0, onScrollToFeed, onPickPlat
                 <ArrowRight className="w-4 h-4" />
               </button>
 
-              <button onClick={onOpenContact} className="btn-outline text-sm sm:text-base !py-3 !px-5">
-                <span>Request Creator Pro Pilot</span>
+              <button onClick={onOpenTrial || onOpenContact} className="btn-outline text-sm sm:text-base !py-3 !px-5">
+                <span>Unlock 14-Day Pro Pass</span>
               </button>
             </div>
 

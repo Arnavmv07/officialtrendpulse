@@ -45,10 +45,17 @@ export default function Header({
                   <span className="font-extrabold text-xl tracking-tight text-ink">
                     TrendPulse
                   </span>
-                  <span className="hidden sm:inline-block text-[10px] font-black px-2 py-0.5 rounded-full"
-                    style={{ background: '#C5FF00', color: '#12112A' }}>
-                    AI
-                  </span>
+                  {activePlan === 'pro' ? (
+                    <span className="hidden sm:inline-block text-[10px] font-black px-2 py-0.5 rounded-full"
+                      style={{ background: '#C5FF00', color: '#12112A' }}>
+                      PRO PASS
+                    </span>
+                  ) : (
+                    <span className="hidden sm:inline-block text-[10px] font-black px-2 py-0.5 rounded-full"
+                      style={{ background: '#EEF0FF', color: '#4B35E8' }}>
+                      EXPLORER
+                    </span>
+                  )}
                 </div>
                 <div className="hidden sm:flex items-center gap-1 text-[11px] font-semibold text-brand">
                   <span>Built on Anthropic Claude</span>

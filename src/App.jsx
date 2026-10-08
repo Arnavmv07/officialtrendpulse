@@ -11,6 +11,7 @@ import PricingSection from './components/PricingSection';
 import CompanySection from './components/CompanySection';
 import ComplianceModal from './components/ComplianceModal';
 import ContactModal from './components/ContactModal';
+import TrialActivationModal from './components/TrialActivationModal';
 import {
   fetchTrends, refreshCrawlers,
   fetchSavedIdeas, saveIdeaToBacklog,
@@ -29,10 +30,15 @@ export default function App() {
   const [modalTrend, setModalTrend] = useState(null);
   const [toast, setToast] = useState(null);
   
-  // Modals for Claude for Startups compliance & contact
+  // Active Plan state (Free Explorer vs Creator Pro)
+  const [currentPlan, setCurrentPlan] = useState('free');
+  
+  // Modals
   const [complianceModalOpen, setComplianceModalOpen] = useState(false);
   const [complianceTab, setComplianceTab] = useState('privacy');
   const [contactModalOpen, setContactModalOpen] = useState(false);
+  const [contactModalRole, setContactModalRole] = useState('Creator / Founder');
+  const [trialModalOpen, setTrialModalOpen] = useState(false);
 
   const feedRef = useRef(null);
 
@@ -40,8 +46,26 @@ export default function App() {
     genre: 'all', platform: 'all', status: 'all', search: '',
   });
 
-  useEffect(() => { loadTrends(); }, [filters]);
-  useEffect(() => { loadSaved(); }, []);
+  useEffect(() => { 
+    loadTrends(); 
+    checkStoredProProfile();
+  }, [filters]);
+
+  useEffect(() => { 
+    loadSaved(); 
+  }, []);
+
+  const checkStoredProProfile = () => {
+    try {
+      const stored = localStorage.getItem('trendpulse_pro_profile');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (new Date(parsed.expiresAt) > new Date()) {
+          setCurrentPlan('pro');
+        }
+      }
+    } catch {}
+  };
 
   const loadTrends = async () => {
     setIsLoading(true);
@@ -145,6 +169,24 @@ export default function App() {
     setComplianceModalOpen(true);
   };
 
+  const handleSelectPlan = (planId) => {
+    if (planId === 'free') {
+      setCurrentPlan('free');
+      showToast('✓ Free Explorer plan active (5 daily Claude strategy briefs)');
+      scrollToFeed();
+    } else if (planId === 'pro') {
+      setTrialModalOpen(true);
+    } else if (planId === 'enterprise') {
+      setContactModalRole('Media Agency Executive');
+      setContactModalOpen(true);
+    }
+  };
+
+  const handleProActivated = (profile) => {
+    setCurrentPlan('pro');
+    showToast(`✓ Creator Pro activated for ${profile.channelName}! Unlimited briefs unlocked.`);
+  };
+
   const savedIds = new Set([
     ...savedIdeas.map(i => i.topic),
     ...savedIdeas.map(i => i.id),
@@ -175,7 +217,11 @@ export default function App() {
         isRefreshing={isRefreshing}
         crawlerStatus={crawlerStatus}
         savedCount={savedIdeas.length}
-        onOpenContact={() => setContactModalOpen(true)}
+        activePlan={currentPlan}
+        onOpenContact={() => {
+          setContactModalRole('Creator / Founder');
+          setContactModalOpen(true);
+        }}
         onOpenCompliance={openComplianceWithTab}
       />
 
@@ -186,7 +232,11 @@ export default function App() {
             trendCount={trends.length}
             onScrollToFeed={scrollToFeed}
             onPickPlatform={pickPlatform}
-            onOpenContact={() => setContactModalOpen(true)}
+            onOpenTrial={() => setTrialModalOpen(true)}
+            onOpenContact={() => {
+              setContactModalRole('Creator / Founder');
+              setContactModalOpen(true);
+            }}
           />
 
           {/* Section Divider */}
@@ -207,9 +257,17 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="text-xs font-semibold px-3.5 py-1.5 rounded-full border-2 text-brand bg-white"
-                style={{ borderColor: '#DDD9FF' }}>
-                ⚡ Live Social Signals Synced
+              <div className="flex items-center gap-2">
+                {currentPlan === 'pro' && (
+                  <span className="text-xs font-black px-3 py-1.5 rounded-full"
+                    style={{ background: '#C5FF00', color: '#12112A' }}>
+                    PRO TIER ACTIVE
+                  </span>
+                )}
+                <div className="text-xs font-semibold px-3.5 py-1.5 rounded-full border-2 text-brand bg-white"
+                  style={{ borderColor: '#DDD9FF' }}>
+                  ⚡ Live Social Signals Synced
+                </div>
               </div>
             </div>
 
@@ -234,7 +292,10 @@ export default function App() {
           <ClaudeArchitectureSection />
 
           {/* Transparent SaaS Pricing Section */}
-          <PricingSection onOpenContact={() => setContactModalOpen(true)} />
+          <PricingSection 
+            activePlan={currentPlan}
+            onSelectPlan={handleSelectPlan}
+          />
 
           {/* About Company & Principles Section */}
           <CompanySection />
@@ -299,7 +360,7 @@ export default function App() {
               <h4 className="font-bold text-ink uppercase tracking-wider text-[11px]">Company</h4>
               <ul className="space-y-1.5 text-ink-3">
                 <li><a href="#about" className="hover:text-brand">About Us</a></li>
-                <li><button onClick={() => setContactModalOpen(true)} className="hover:text-brand">Request Pilot / Contact</button></li>
+                <li><button onClick={() => { setContactModalRole('Creator / Founder'); setContactModalOpen(true); }} className="hover:text-brand">Request Pilot / Contact</button></li>
                 <li><span className="text-brand font-semibold">Claude for Startups Applicant</span></li>
               </ul>
             </div>
@@ -349,7 +410,15 @@ export default function App() {
       {/* Contact & Pilot Request Modal */}
       <ContactModal
         isOpen={contactModalOpen}
+        initialRole={contactModalRole}
         onClose={() => setContactModalOpen(false)}
+      />
+
+      {/* 14-Day Pro Trial Activation Modal */}
+      <TrialActivationModal
+        isOpen={trialModalOpen}
+        onClose={() => setTrialModalOpen(false)}
+        onActivated={handleProActivated}
       />
 
     </div>

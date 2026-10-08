@@ -1,5 +1,5 @@
 // YouTube trends crawler and video sample aggregator
-// Provides YouTube breakout topics, sample videos, high-CTR thumbnail styles, and viewer sentiment
+// Provides YouTube breakout topics, real video searches, high-CTR thumbnail styles, and viewer sentiment
 
 const YOUTUBE_TRENDING_SAMPLES = [
   {
@@ -7,7 +7,7 @@ const YOUTUBE_TRENDING_SAMPLES = [
     title: 'I Built a Full App with Claude 3.7 Sonnet & Reasoning: Is Cursor Obsolete?',
     channel: 'Matthew Berman',
     channelAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
-    videoUrl: 'https://youtube.com/watch?v=sample_tech_1',
+    videoUrl: 'https://www.youtube.com/results?search_query=Claude+3.7+Sonnet+Coding+App',
     thumbnail: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80',
     views: '342,000 views',
     publishedAgo: '14 hours ago',
@@ -23,7 +23,7 @@ const YOUTUBE_TRENDING_SAMPLES = [
     title: 'The Truth About Local AI Hardware: Do You Really Need 64GB of Unified Memory?',
     channel: 'Dave2D / Tech Lead Review',
     channelAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
-    videoUrl: 'https://youtube.com/watch?v=sample_tech_2',
+    videoUrl: 'https://www.youtube.com/results?search_query=Local+AI+Hardware+64GB+Unified+Memory',
     thumbnail: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop&q=80',
     views: '512,000 views',
     publishedAgo: '1 day ago',
@@ -39,7 +39,7 @@ const YOUTUBE_TRENDING_SAMPLES = [
     title: 'Why Unreal Engine 5 Games Keep Stuttering on PC (Deep Technical Breakdown)',
     channel: 'Digital Foundry Style',
     channelAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
-    videoUrl: 'https://youtube.com/watch?v=sample_game_1',
+    videoUrl: 'https://www.youtube.com/results?search_query=Unreal+Engine+5+Stuttering+PC+Digital+Foundry',
     thumbnail: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=80',
     views: '680,000 views',
     publishedAgo: '2 days ago',
@@ -55,7 +55,7 @@ const YOUTUBE_TRENDING_SAMPLES = [
     title: '10 Indie Games in 2026 That Put $100M AAA Studios to Shame',
     channel: 'Gameranx / Best Indie Picks',
     channelAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
-    videoUrl: 'https://youtube.com/watch?v=sample_game_2',
+    videoUrl: 'https://www.youtube.com/results?search_query=Best+Indie+Games+2026+Gameranx',
     thumbnail: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop&q=80',
     views: '410,000 views',
     publishedAgo: '18 hours ago',
@@ -71,7 +71,7 @@ const YOUTUBE_TRENDING_SAMPLES = [
     title: 'Why Everyone Is Quietly Putting Cash Into 4-Week Treasury Bills Right Now',
     channel: 'Graham Stephan / Humphrey Yang',
     channelAvatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=100&auto=format&fit=crop&q=80',
-    videoUrl: 'https://youtube.com/watch?v=sample_fin_1',
+    videoUrl: 'https://www.youtube.com/results?search_query=4+Week+Treasury+Bills+Graham+Stephan',
     thumbnail: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=80',
     views: '730,000 views',
     publishedAgo: '1 day ago',
@@ -87,7 +87,7 @@ const YOUTUBE_TRENDING_SAMPLES = [
     title: 'The Downfall of High-Budget Hollywood: What Killed the $250M Blockbuster?',
     channel: 'The Take / Nerdwriter1',
     channelAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80',
-    videoUrl: 'https://youtube.com/watch?v=sample_ent_1',
+    videoUrl: 'https://www.youtube.com/results?search_query=Downfall+High+Budget+Hollywood+Box+Office',
     thumbnail: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&auto=format&fit=crop&q=80',
     views: '890,000 views',
     publishedAgo: '3 days ago',
@@ -103,7 +103,7 @@ const YOUTUBE_TRENDING_SAMPLES = [
     title: 'Science Finally Settled the High-Protein vs Moderate-Protein Debate for Muscle Growth',
     channel: 'Jeff Nippard / Renaissance Periodization',
     channelAvatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&auto=format&fit=crop&q=80',
-    videoUrl: 'https://youtube.com/watch?v=sample_fit_1',
+    videoUrl: 'https://www.youtube.com/results?search_query=High+Protein+vs+Moderate+Protein+Jeff+Nippard',
     thumbnail: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=800&auto=format&fit=crop&q=80',
     views: '620,000 views',
     publishedAgo: '20 hours ago',
@@ -119,7 +119,7 @@ const YOUTUBE_TRENDING_SAMPLES = [
     title: 'The "Dopamine Fast" Is a Myth: Here Is What Actually Fixes Brain Fog in 7 Days',
     channel: 'Ali Abdaal / Andrew Huberman Style',
     channelAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
-    videoUrl: 'https://youtube.com/watch?v=sample_life_1',
+    videoUrl: 'https://www.youtube.com/results?search_query=Dopamine+Fast+Myth+Brain+Fog+Neuroscience',
     thumbnail: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&auto=format&fit=crop&q=80',
     views: '480,000 views',
     publishedAgo: '16 hours ago',

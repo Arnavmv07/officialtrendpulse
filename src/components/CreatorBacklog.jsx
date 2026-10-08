@@ -183,7 +183,7 @@ export default function CreatorBacklog({ savedIdeas, onUpdateStatus, onDeleteIde
                 <input
                   required type="text" value={topic}
                   onChange={e => setTopic(e.target.value)}
-                  placeholder="e.g. Why Local AI is Killing Cloud SaaS"
+                  placeholder="Enter video concept title..."
                   className="w-full px-4 py-2.5 rounded-xl border-2 text-sm font-medium outline-none"
                   style={{ borderColor: '#DDD9FF', color: '#12112A' }}
                   onFocus={e => e.target.style.borderColor = '#4B35E8'}
@@ -205,7 +205,7 @@ export default function CreatorBacklog({ savedIdeas, onUpdateStatus, onDeleteIde
                   Notes / Angle (optional)
                 </label>
                 <textarea rows={3} value={notes} onChange={e => setNotes(e.target.value)}
-                  placeholder="Key points, references, b-roll ideas..."
+                  placeholder="Add key talking points, references, or b-roll ideas..."
                   className="w-full px-4 py-2.5 rounded-xl border-2 text-sm font-medium outline-none resize-none"
                   style={{ borderColor: '#DDD9FF', color: '#12112A' }}
                   onFocus={e => e.target.style.borderColor = '#4B35E8'}

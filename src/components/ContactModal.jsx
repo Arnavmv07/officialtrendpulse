@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { X, Mail, Send, CheckCircle2, Building, MessageSquare } from 'lucide-react';
 
-export default function ContactModal({ isOpen, onClose }) {
+export default function ContactModal({ isOpen, onClose, initialRole = 'Creator / Founder' }) {
   const [submitted, setSubmitted] = useState(false);
+  const [ticketId, setTicketId] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     company: '',
-    role: 'Creator / Founder',
+    role: initialRole,
     message: ''
   });
 
@@ -15,11 +16,28 @@ export default function ContactModal({ isOpen, onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) return;
+
+    const ref = `TP-${Date.now().toString(36).toUpperCase()}-${Math.floor(Math.random() * 899 + 100)}`;
+    setTicketId(ref);
+
+    const submission = {
+      referenceId: ref,
+      submittedAt: new Date().toISOString(),
+      ...formData
+    };
+
+    // Store in localStorage so inquiries are persisted and retrievable
+    const existing = JSON.parse(localStorage.getItem('trendpulse_inquiries') || '[]');
+    existing.unshift(submission);
+    localStorage.setItem('trendpulse_inquiries', JSON.stringify(existing));
+
     setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      onClose();
-    }, 2500);
+  };
+
+  const handleReset = () => {
+    setSubmitted(false);
+    onClose();
   };
 
   return (
@@ -34,11 +52,11 @@ export default function ContactModal({ isOpen, onClose }) {
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="section-label">Get in Touch</span>
+              <span className="section-label">Official Contact</span>
             </div>
             <h2 className="text-2xl font-extrabold text-ink">Connect with TrendPulse</h2>
             <p className="text-xs text-ink-3 mt-1">
-              General inquiries, pilot programs, or investor discussions.
+              Enterprise pilot programs, custom MCP scrapers, or partnership inquiries.
             </p>
           </div>
           <button onClick={onClose} className="p-2 rounded-xl hover:bg-surface text-ink-3 hover:text-ink cursor-pointer">
@@ -46,7 +64,7 @@ export default function ContactModal({ isOpen, onClose }) {
           </button>
         </div>
 
-        {/* Direct contact badge */}
+        {/* Direct founder email badge */}
         <div className="p-3.5 rounded-2xl bg-surface border-2 flex items-center justify-between text-xs"
           style={{ borderColor: '#DDD9FF' }}>
           <div className="flex items-center gap-2">
@@ -59,24 +77,34 @@ export default function ContactModal({ isOpen, onClose }) {
         </div>
 
         {submitted ? (
-          <div className="py-10 text-center space-y-3">
+          <div className="py-8 text-center space-y-4">
             <div className="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center"
               style={{ background: '#ECFDF5' }}>
               <CheckCircle2 className="w-8 h-8 text-emerald-500" />
             </div>
-            <h3 className="text-lg font-extrabold text-ink">Message Received!</h3>
-            <p className="text-xs text-ink-3 max-w-xs mx-auto">
-              Thank you for reaching out. A founding team member will reply to your domain email within 24 hours.
+            <div>
+              <h3 className="text-lg font-extrabold text-ink">Inquiry Received</h3>
+              <p className="text-xs text-ink-3 mt-1">
+                Reference ID: <strong className="font-mono text-brand">{ticketId}</strong>
+              </p>
+            </div>
+            <p className="text-xs text-ink-2 max-w-sm mx-auto leading-relaxed">
+              Your inquiry has been recorded. Our team will follow up at <strong>{formData.email}</strong> within 24 hours.
             </p>
+            <div className="pt-2">
+              <button onClick={handleReset} className="btn-brand text-xs !py-2 !px-5">
+                Done
+              </button>
+            </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 text-xs font-semibold">
             <div>
-              <label className="block text-ink-3 mb-1">Your Name</label>
+              <label className="block text-ink-3 mb-1">Full Name</label>
               <input
                 required
                 type="text"
-                placeholder="Jane Doe"
+                placeholder="Enter your name"
                 value={formData.name}
                 onChange={e => setFormData({ ...formData, name: e.target.value })}
                 className="w-full px-4 py-2.5 rounded-xl border-2 text-ink text-sm outline-none"
@@ -87,11 +115,11 @@ export default function ContactModal({ isOpen, onClose }) {
             </div>
 
             <div>
-              <label className="block text-ink-3 mb-1">Company / Creator Email</label>
+              <label className="block text-ink-3 mb-1">Company or Creator Email</label>
               <input
                 required
                 type="email"
-                placeholder="jane@yourdomain.com"
+                placeholder="Enter your email address"
                 value={formData.email}
                 onChange={e => setFormData({ ...formData, email: e.target.value })}
                 className="w-full px-4 py-2.5 rounded-xl border-2 text-ink text-sm outline-none"
@@ -103,10 +131,10 @@ export default function ContactModal({ isOpen, onClose }) {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-ink-3 mb-1">Channel / Company</label>
+                <label className="block text-ink-3 mb-1">Channel / Organization</label>
                 <input
                   type="text"
-                  placeholder="e.g. Nexus Media / YouTube"
+                  placeholder="Enter organization or channel"
                   value={formData.company}
                   onChange={e => setFormData({ ...formData, company: e.target.value })}
                   className="w-full px-4 py-2.5 rounded-xl border-2 text-ink text-sm outline-none"
@@ -125,18 +153,18 @@ export default function ContactModal({ isOpen, onClose }) {
                 >
                   <option value="Creator / Founder">Creator / Founder</option>
                   <option value="Media Agency Executive">Agency Executive</option>
-                  <option value="Anthropic Reviewer">Anthropic Partner / Reviewer</option>
-                  <option value="Investor / Press">Investor / Press</option>
+                  <option value="Anthropic Partner / Reviewer">Anthropic Partner / Reviewer</option>
+                  <option value="Investor / Media">Investor / Media</option>
                 </select>
               </div>
             </div>
 
             <div>
-              <label className="block text-ink-3 mb-1">How can we assist you?</label>
+              <label className="block text-ink-3 mb-1">Message or Requirements</label>
               <textarea
                 rows={3}
                 required
-                placeholder="Tell us about your content goals or pilot requirements..."
+                placeholder="Describe your production workflow, team size, or custom scraper questions..."
                 value={formData.message}
                 onChange={e => setFormData({ ...formData, message: e.target.value })}
                 className="w-full px-4 py-2.5 rounded-xl border-2 text-ink text-sm outline-none resize-none"

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Check, Sparkles, Zap, Shield, ArrowRight } from 'lucide-react';
 
-export default function PricingSection({ onOpenContact }) {
+export default function PricingSection({ onSelectPlan, activePlan = 'free' }) {
   const tiers = [
     {
+      id: 'free',
       name: 'Free Explorer',
       price: '$0',
       period: 'forever',
@@ -16,10 +17,11 @@ export default function PricingSection({ onOpenContact }) {
         'Creator Studio Kanban backlog (up to 15 ideas)',
         'Community support'
       ],
-      ctaText: 'Get Started Free',
+      ctaText: activePlan === 'free' ? 'Current Active Plan' : 'Select Free Plan',
       ctaStyle: 'btn-outline'
     },
     {
+      id: 'pro',
       name: 'Creator Pro',
       price: '$29',
       period: '/ month',
@@ -35,10 +37,11 @@ export default function PricingSection({ onOpenContact }) {
         'Instant Markdown export & clipboard sync',
         'Priority crawler syncs every 5 minutes'
       ],
-      ctaText: 'Start 14-Day Free Trial',
+      ctaText: activePlan === 'pro' ? 'Pro Pass Active ✓' : 'Start 14-Day Free Trial',
       ctaStyle: 'btn-lime'
     },
     {
+      id: 'enterprise',
       name: 'Studio & Agency',
       price: '$99',
       period: '/ month',
@@ -74,9 +77,9 @@ export default function PricingSection({ onOpenContact }) {
 
         {/* Pricing Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-          {tiers.map((tier, idx) => (
+          {tiers.map((tier) => (
             <div
-              key={idx}
+              key={tier.id}
               className={`rounded-3xl p-7 flex flex-col justify-between transition-all relative ${
                 tier.highlight
                   ? 'border-4 shadow-xl -translate-y-2'
@@ -84,7 +87,7 @@ export default function PricingSection({ onOpenContact }) {
               }`}
               style={{
                 borderColor: tier.highlight ? '#4B35E8' : '#DDD9FF',
-                background: tier.highlight ? '#FFFFFF' : '#FFFFFF',
+                background: '#FFFFFF',
               }}
             >
               {tier.badge && (
@@ -117,7 +120,7 @@ export default function PricingSection({ onOpenContact }) {
 
               <div className="pt-8 mt-6 border-t-2" style={{ borderColor: '#EEF0FF' }}>
                 <button
-                  onClick={onOpenContact}
+                  onClick={() => onSelectPlan(tier.id)}
                   className={`w-full justify-center text-sm !py-3 ${tier.ctaStyle}`}
                 >
                   <span>{tier.ctaText}</span>
