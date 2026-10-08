@@ -3,61 +3,9 @@ import { Check, Sparkles, Zap, Shield, ArrowRight } from 'lucide-react';
 
 export default function PricingSection({ onSelectPlan, activePlan = 'free' }) {
   const tiers = [
-    {
-      id: 'free',
-      name: 'Free Explorer',
-      price: '$0',
-      period: 'forever',
-      description: 'Ideal for independent creators testing the waters of trend-driven content.',
-      highlight: false,
-      features: [
-        'Live trend radar (YouTube, X, Instagram, Reddit)',
-        'Up to 5 Claude video strategy briefs per day',
-        'Basic velocity stage categorization',
-        'Creator Studio Kanban backlog (up to 15 ideas)',
-        'Community support'
-      ],
-      ctaText: activePlan === 'free' ? 'Current Active Plan' : 'Select Free Plan',
-      ctaStyle: 'btn-outline'
-    },
-    {
-      id: 'pro',
-      name: 'Creator Pro',
-      price: '$29',
-      period: '/ month',
-      description: 'For full-time creators and YouTubers who need unfair algorithmic advantages.',
-      highlight: true,
-      badge: 'MOST POPULAR',
-      features: [
-        'Everything in Free',
-        'Unlimited Claude 3.7 Sonnet deep reasoning briefs',
-        '3-second hook generator (spoken + visual camera direction)',
-        'High-CTR thumbnail concept & color composition prompt',
-        '5-beat full script blueprint generation',
-        'Instant Markdown export & clipboard sync',
-        'Priority crawler syncs every 5 minutes'
-      ],
-      ctaText: activePlan === 'pro' ? 'Pro Pass Active ✓' : 'Start 14-Day Free Trial',
-      ctaStyle: 'btn-lime'
-    },
-    {
-      id: 'enterprise',
-      name: 'Studio & Agency',
-      price: '$99',
-      period: '/ month',
-      description: 'For media production houses, talent agencies, and high-frequency content teams.',
-      highlight: false,
-      features: [
-        'Everything in Creator Pro',
-        'Up to 5 team member seats included',
-        'Model Context Protocol (MCP) custom scraper connections',
-        'White-label script briefs for clients',
-        'Dedicated Claude API rate limits & zero data retention SLA',
-        'Dedicated onboarding & creator strategist support'
-      ],
-      ctaText: 'Contact Enterprise Sales',
-      ctaStyle: 'btn-brand'
-    }
+    { id: 'free', name: 'Demo Explorer', price: 'Free', period: 'prototype', description: 'Try the sample workflow available today.', highlight: false, features: ['Eight sample trend cards', 'Filter by topic and platform', 'Template-based creative briefs', 'Browser-local idea board', 'No account or checkout'], ctaText: 'Explore Demo', ctaStyle: 'btn-outline' },
+    { id: 'pro', name: 'Creator Tools', price: 'Planned', period: 'not available', description: 'Possible future tools for individual creators.', highlight: true, badge: 'IN DEVELOPMENT', features: ['Verified source feeds are planned', 'Claude-powered briefs are planned', 'No release date or price set', 'No paid subscription available'], ctaText: 'Coming Soon', ctaStyle: 'btn-lime' },
+    { id: 'enterprise', name: 'Team Workflows', price: 'Planned', period: 'not available', description: 'Possible future collaboration features.', highlight: false, features: ['Shared workspaces are under consideration', 'Source connectors need validation', 'No team seats or SLA available', 'No enterprise service offered'], ctaText: 'Coming Soon', ctaStyle: 'btn-brand' }
   ];
 
   return (
@@ -66,12 +14,12 @@ export default function PricingSection({ onSelectPlan, activePlan = 'free' }) {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="section-label mb-3 inline-block">Transparent Pricing</span>
+          <span className="section-label mb-3 inline-block">Current Demo & Future Plans</span>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight" style={{ color: '#12112A' }}>
-            Built for Solo Creators and Media Companies Alike
+            Try the Prototype. Follow the Roadmap.
           </h2>
           <p className="mt-3 text-base sm:text-lg leading-relaxed" style={{ color: '#7A788F' }}>
-            Predict what goes viral next. Monetize your channel with Claude-engineered video angles before the competition catches on.
+            The demo is free to explore. Paid plans, live integrations, and team features are not available; no payment is collected.
           </p>
         </div>
 
@@ -120,7 +68,8 @@ export default function PricingSection({ onSelectPlan, activePlan = 'free' }) {
 
               <div className="pt-8 mt-6 border-t-2" style={{ borderColor: '#EEF0FF' }}>
                 <button
-                  onClick={() => onSelectPlan(tier.id)}
+                  onClick={() => { if (tier.id === 'free') document.getElementById('feed-section')?.scrollIntoView({ behavior: 'smooth' }); }}
+                  disabled={tier.id !== 'free'}
                   className={`w-full justify-center text-sm !py-3 ${tier.ctaStyle}`}
                 >
                   <span>{tier.ctaText}</span>
