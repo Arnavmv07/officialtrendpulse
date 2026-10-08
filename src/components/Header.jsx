@@ -59,7 +59,7 @@ export default function Header({
                   )}
                 </div>
                 <div className="hidden sm:flex items-center gap-1 text-[11px] font-semibold text-brand">
-                  <span>Built on Anthropic Claude</span>
+                  <span>Creator Workflow Prototype</span>
                 </div>
               </div>
             </button>
@@ -99,14 +99,14 @@ export default function Header({
               onClick={() => scrollToSection('claude-stack')}
               className="px-3.5 py-1.5 rounded-full text-xs font-bold text-ink-3 hover:text-ink transition-all"
             >
-              Why Claude
+              Roadmap
             </button>
 
             <button
               onClick={() => scrollToSection('pricing')}
               className="px-3.5 py-1.5 rounded-full text-xs font-bold text-ink-3 hover:text-ink transition-all"
             >
-              Pricing
+              Plans
             </button>
 
             <button
@@ -124,7 +124,7 @@ export default function Header({
             <div className="hidden xl:flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full border"
               style={{ borderColor: '#DDD9FF', background: '#F6F5FF', color: '#3D3B5C' }}>
               <span className="live-dot"></span>
-              <span>4 Platforms Synced</span>
+              <span>Sample Data</span>
             </div>
 
             <button
@@ -132,17 +132,17 @@ export default function Header({
               disabled={isRefreshing}
               className="p-2 sm:px-3 sm:py-2 rounded-full border-2 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer hover:border-brand"
               style={{ borderColor: '#DDD9FF', background: '#FFFFFF', color: '#4B35E8' }}
-              title="Crawl live trends across YouTube, X, Instagram, and Reddit"
+              title="Reload the sample trend cards"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
-              <span className="hidden sm:inline">{isRefreshing ? 'Syncing...' : 'Sync'}</span>
+              <span className="hidden sm:inline">{isRefreshing ? 'Reloading...' : 'Reload'}</span>
             </button>
 
             <button
               onClick={onOpenContact}
               className="btn-brand text-xs !py-2 !px-3.5 shadow-sm"
             >
-              <span>Book Demo</span>
+              <span>Contact</span>
             </button>
 
             {/* Mobile Hamburger */}
@@ -174,8 +174,8 @@ export default function Header({
               </button>
             </div>
             <div className="flex justify-between text-xs font-bold pt-2 px-1 text-ink-3">
-              <button onClick={() => { scrollToSection('claude-stack'); setMobileMenuOpen(false); }}>Why Claude</button>
-              <button onClick={() => { scrollToSection('pricing'); setMobileMenuOpen(false); }}>Pricing</button>
+              <button onClick={() => { scrollToSection('claude-stack'); setMobileMenuOpen(false); }}>Roadmap</button>
+              <button onClick={() => { scrollToSection('pricing'); setMobileMenuOpen(false); }}>Plans</button>
               <button onClick={() => { scrollToSection('about'); setMobileMenuOpen(false); }}>About</button>
               <button onClick={() => { onOpenCompliance('safety'); setMobileMenuOpen(false); }}>Trust & Safety</button>
             </div>
