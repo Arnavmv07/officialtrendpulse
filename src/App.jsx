@@ -11,7 +11,7 @@ import PricingSection from './components/PricingSection';
 import CompanySection from './components/CompanySection';
 import ComplianceModal from './components/ComplianceModal';
 import ContactModal from './components/ContactModal';
-import TrialActivationModal from './components/TrialActivationModal';
+
 import {
   fetchTrends, refreshCrawlers,
   fetchSavedIdeas, saveIdeaToBacklog,
@@ -29,10 +29,10 @@ export default function App() {
   const [savedIdeas, setSavedIdeas] = useState([]);
   const [modalTrend, setModalTrend] = useState(null);
   const [toast, setToast] = useState(null);
-  
+
   // Active Plan state (Free Explorer vs Creator Pro)
   const [currentPlan, setCurrentPlan] = useState('free');
-  
+
   // Modals
   const [complianceModalOpen, setComplianceModalOpen] = useState(false);
   const [complianceTab, setComplianceTab] = useState('privacy');
@@ -46,13 +46,13 @@ export default function App() {
     genre: 'all', platform: 'all', status: 'all', search: '',
   });
 
-  useEffect(() => { 
-    loadTrends(); 
-    checkStoredProProfile();
+  useEffect(() => {
+    loadTrends();
+
   }, [filters]);
 
-  useEffect(() => { 
-    loadSaved(); 
+  useEffect(() => {
+    loadSaved();
   }, []);
 
   const checkStoredProProfile = () => {
@@ -85,12 +85,12 @@ export default function App() {
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    showToast('📡 Syncing trends across YouTube, X, Instagram & Reddit...');
+    showToast('Reloading sample cards...');
     try {
       await refreshCrawlers();
       await loadTrends();
-      showToast('✓ All 4 platforms refreshed with latest social signals!');
-    } catch { showToast('⚠️ Serving cached intelligence stream.'); }
+      showToast('Sample cards reloaded. No live data was fetched.');
+    } catch { showToast('Sample data is currently unavailable.'); }
     finally { setIsRefreshing(false); }
   };
 
@@ -169,24 +169,6 @@ export default function App() {
     setComplianceModalOpen(true);
   };
 
-  const handleSelectPlan = (planId) => {
-    if (planId === 'free') {
-      setCurrentPlan('free');
-      showToast('✓ Free Explorer plan active (5 daily Claude strategy briefs)');
-      scrollToFeed();
-    } else if (planId === 'pro') {
-      setTrialModalOpen(true);
-    } else if (planId === 'enterprise') {
-      setContactModalRole('Media Agency Executive');
-      setContactModalOpen(true);
-    }
-  };
-
-  const handleProActivated = (profile) => {
-    setCurrentPlan('pro');
-    showToast(`✓ Creator Pro activated for ${profile.channelName}! Unlimited briefs unlocked.`);
-  };
-
   const savedIds = new Set([
     ...savedIdeas.map(i => i.topic),
     ...savedIdeas.map(i => i.id),
@@ -232,7 +214,7 @@ export default function App() {
             trendCount={trends.length}
             onScrollToFeed={scrollToFeed}
             onPickPlatform={pickPlatform}
-            onOpenTrial={() => setTrialModalOpen(true)}
+            onOpenTrial={() => setContactModalOpen(true)}
             onOpenContact={() => {
               setContactModalRole('Creator / Founder');
               setContactModalOpen(true);
@@ -242,18 +224,18 @@ export default function App() {
           {/* Section Divider */}
           <div style={{ height: '2px', background: 'linear-gradient(to right, #EEF0FF, #DDD9FF, #EEF0FF)' }} />
 
-          {/* Live Trend Radar & Strategy Section */}
+          {/* Sample Trend Radar & Strategy Section */}
           <section ref={feedRef} id="feed-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            
+
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
               <div>
                 <span className="section-label mb-2.5 inline-block">Interactive Product Demo</span>
                 <h2 className="text-3xl font-extrabold text-ink">
-                  Surging Trend Radar & Concept Workshop
+                  Sample Trend Radar & Concept Workshop
                 </h2>
                 <p className="text-sm mt-1 text-ink-3">
-                  {trends.length} opportunities detected in real time · Click{' '}
-                  <strong style={{ color: '#4B35E8' }}>Generate Strategy</strong> to test Claude 3.7 reasoning briefs
+                  {trends.length} sample cards, not live trends. Metrics and names are illustrative. Click{' '}
+                  <strong style={{ color: '#4B35E8' }}>Generate Strategy</strong> to explore a template-based demo brief
                 </p>
               </div>
 
@@ -266,7 +248,7 @@ export default function App() {
                 )}
                 <div className="text-xs font-semibold px-3.5 py-1.5 rounded-full border-2 text-brand bg-white"
                   style={{ borderColor: '#DDD9FF' }}>
-                  ⚡ Live Social Signals Synced
+                  Sample Data · Not Live
                 </div>
               </div>
             </div>
@@ -292,9 +274,9 @@ export default function App() {
           <ClaudeArchitectureSection />
 
           {/* Transparent SaaS Pricing Section */}
-          <PricingSection 
+          <PricingSection
             activePlan={currentPlan}
-            onSelectPlan={handleSelectPlan}
+
           />
 
           {/* About Company & Principles Section */}
@@ -316,9 +298,9 @@ export default function App() {
       {/* Footer */}
       <footer className="border-t-2 mt-16 bg-white" style={{ borderColor: '#DDD9FF' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          
+
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
-            
+
             {/* Col 1: Brand & Identity */}
             <div className="space-y-3 md:col-span-1">
               <div className="flex items-center gap-2">
@@ -329,13 +311,13 @@ export default function App() {
                 <span className="font-extrabold text-base text-ink">TrendPulse AI</span>
               </div>
               <p className="text-xs text-ink-3 leading-relaxed">
-                TrendPulse Technologies Inc.<br />
-                San Francisco, CA<br />
-                Founded in 2025. Built on Anthropic Claude.
+                TrendPulse<br />
+                Pune, India<br />
+                Started October 2026. Built by Arnav Ramesh.
               </p>
               <div className="pt-1">
-                <a 
-                  href="mailto:founders@officialtrendpulse.in" 
+                <a
+                  href="mailto:founders@officialtrendpulse.in"
                   className="text-xs font-mono font-bold text-brand hover:underline flex items-center gap-1"
                 >
                   <Mail className="w-3.5 h-3.5" />
@@ -348,10 +330,10 @@ export default function App() {
             <div className="space-y-2 text-xs">
               <h4 className="font-bold text-ink uppercase tracking-wider text-[11px]">Product</h4>
               <ul className="space-y-1.5 text-ink-3">
-                <li><button onClick={() => { setActiveTab('feed'); scrollToFeed(); }} className="hover:text-brand">Live Trend Radar</button></li>
+                <li><button onClick={() => { setActiveTab('feed'); scrollToFeed(); }} className="hover:text-brand">Sample Trend Radar</button></li>
                 <li><button onClick={() => setActiveTab('studio')} className="hover:text-brand">Creator Studio Kanban</button></li>
-                <li><a href="#claude-stack" className="hover:text-brand">Claude 3.7 Reasoning Engine</a></li>
-                <li><a href="#pricing" className="hover:text-brand">Creator Pro Plans</a></li>
+                <li><a href="#claude-stack" className="hover:text-brand">Development Roadmap</a></li>
+                <li><a href="#pricing" className="hover:text-brand">Future Plans</a></li>
               </ul>
             </div>
 
@@ -366,11 +348,11 @@ export default function App() {
 
             {/* Col 4: Trust, Safety & Compliance */}
             <div className="space-y-2 text-xs">
-              <h4 className="font-bold text-ink uppercase tracking-wider text-[11px]">Trust & Compliance</h4>
+              <h4 className="font-bold text-ink uppercase tracking-wider text-[11px]">Demo Information</h4>
               <ul className="space-y-1.5 text-ink-3">
-                <li><button onClick={() => openComplianceWithTab('privacy')} className="hover:text-brand">Privacy Policy (Zero Model Training)</button></li>
-                <li><button onClick={() => openComplianceWithTab('terms')} className="hover:text-brand">Terms of Commercial Service</button></li>
-                <li><button onClick={() => openComplianceWithTab('safety')} className="hover:text-brand">Responsible AI & Safety Policy</button></li>
+                <li><button onClick={() => openComplianceWithTab('privacy')} className="hover:text-brand">Privacy & Local Storage</button></li>
+                <li><button onClick={() => openComplianceWithTab('terms')} className="hover:text-brand">Demo Terms</button></li>
+                <li><button onClick={() => openComplianceWithTab('safety')} className="hover:text-brand">Responsible Use</button></li>
               </ul>
             </div>
 
@@ -379,11 +361,11 @@ export default function App() {
           <div className="pt-8 border-t-2 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-ink-3"
             style={{ borderColor: '#EEF0FF' }}>
             <div className="flex items-center gap-2">
-              <span>© {new Date().getFullYear()} TrendPulse Technologies Inc. All rights reserved.</span>
+              <span>© {new Date().getFullYear()} TrendPulse All rights reserved.</span>
             </div>
             <div className="flex items-center gap-3">
               <span className="live-dot" style={{ width: 6, height: 6 }}></span>
-              <span>Autonomous Social Crawlers: YouTube · X · Instagram · Reddit</span>
+              <span>Prototype · Live Crawlers and Claude Integration Planned</span>
             </div>
           </div>
 
@@ -399,7 +381,7 @@ export default function App() {
         isSaved={modalTrend ? (savedIds.has(modalTrend.id) || savedIds.has(modalTrend.title)) : false}
       />
 
-      {/* Trust & Compliance Modal (Privacy, Terms, Safety) */}
+      {/* Demo Information Modal (Privacy, Terms, Safety) */}
       <ComplianceModal
         isOpen={complianceModalOpen}
         onClose={() => setComplianceModalOpen(false)}
@@ -413,12 +395,6 @@ export default function App() {
         onClose={() => setContactModalOpen(false)}
       />
 
-      {/* 14-Day Pro Trial Activation Modal */}
-      <TrialActivationModal
-        isOpen={trialModalOpen}
-        onClose={() => setTrialModalOpen(false)}
-        onActivated={handleProActivated}
-      />
 
     </div>
   );
