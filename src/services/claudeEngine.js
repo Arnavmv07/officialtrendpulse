@@ -1,142 +1,17 @@
 // Claude AI Engine for TrendPulse
 // High-fidelity social intelligence engine with real working links and active verification
 
-export const FALLBACK_TRENDS = [
-  {
-    id: 'yt-ai-1',
-    platform: 'youtube',
-    genre: 'tech',
-    title: 'Why Claude 3.7 Sonnet Reasoning is Disrupting Software Engineering Workflows',
-    sourceUrl: 'https://www.youtube.com/results?search_query=Claude+3.7+Sonnet+Coding+Workflow',
-    community: 'Matthew Berman (480K views)',
-    author: 'Matthew Berman',
-    duration: '16:42',
-    metrics: { views: '480K', likes: '26.4K', velocityScore: 97, retentionRate: '74%' },
-    status: 'Peak Viral',
-    summary: 'Deep benchmark comparing frontier reasoning models against human PR review cycles. Huge audience appetite for actionable developer workflows rather than generic AI hype.',
-    sampleHook: '"They told us AI coding was plateauing... until this benchmark dropped."',
-    thumbnail: null,
-    publishedAt: new Date(Date.now() - 3600000 * 4).toISOString()
-  },
-  {
-    id: 'x-ai-agents',
-    platform: 'twitter',
-    genre: 'tech',
-    title: '#AIAgents: Autonomous PR Reviewers replacing traditional junior dev boilerplate',
-    sourceUrl: 'https://x.com/search?q=%23AIAgents',
-    community: 'X / Twitter (184.2K posts)',
-    author: '@sama_insights',
-    metrics: { volume: '184K', velocityScore: 95, velocityChange: '+240% in 6h', sentiment: '78% Bullish', controversy: 'High' },
-    status: 'Peak Viral',
-    sampleTweet: {
-      author: '@sama_insights',
-      text: 'The jump from copilot autocompletion to multi-agent autonomy is breaking people\'s mental models. If you are still teaching juniors basic boilerplate, you are doing them a disservice.',
-      likes: '28.4K',
-      retweets: '4,890'
-    },
-    summary: 'Massive viral debate on X discussing whether software engineer hiring will shift 100% to systems design and prompt verification.',
-    thumbnail: null,
-    publishedAt: new Date(Date.now() - 3600000 * 2).toISOString()
-  },
-  {
-    id: 'ig-founder-aesthetic',
-    platform: 'instagram',
-    genre: 'lifestyle',
-    title: '"Anti-Glamour Solo Founder Reality": Realistic 2026 Workspaces vs 5 AM Ice Baths',
-    sourceUrl: 'https://www.instagram.com/explore/tags/solofounder/',
-    community: 'Instagram Reels (@lucas_builds)',
-    author: '@lucas_builds',
-    audioTrack: 'Original Sound - lo-fi coffee chill (surging in 42.1K reels)',
-    viralFormat: 'Fast-cut montage with natural lighting, unfiltered terminal bugs, honest financial runway overlay',
-    metrics: { avgViews: '1.4M', saveRate: '16.4%', velocityScore: 92, audioGrowth: '+185% this week' },
-    status: 'Peak Viral',
-    sampleHook: '"No aesthetic morning routine. No 5 AM ice bath. Here is what building an AI company actually looked like today."',
-    summary: 'Viewers are fatigued by fake billionaire morning routines. Honest, realistic productivity with relatable struggles is going viral across Instagram.',
-    thumbnail: null,
-    publishedAt: new Date(Date.now() - 3600000 * 6).toISOString()
-  },
-  {
-    id: 'reddit-unreal-fatigue',
-    platform: 'reddit',
-    genre: 'gaming',
-    title: 'The Unforeseen Problem With Ultra-Realistic Unreal Engine 5 Games: "Visual Fatigue"',
-    sourceUrl: 'https://www.reddit.com/r/Games/',
-    community: 'r/Games',
-    author: 'u/retro_shifter',
-    metrics: { upvotes: 3840, comments: 840, velocityScore: 89, engagementRate: '8.4%' },
-    status: 'Brewing Fast',
-    summary: 'Gamers are noticing modern hyper-detailed graphics make gameplay unreadable compared to stylized art. Creators can compare gameplay clarity across generations.',
-    thumbnail: null,
-    publishedAt: new Date(Date.now() - 3600000 * 8).toISOString()
-  },
-  {
-    id: 'yt-tbills',
-    platform: 'youtube',
-    genre: 'finance',
-    title: 'Why Everyone Is Quietly Putting Cash Into 4-Week Treasury Bills Right Now',
-    sourceUrl: 'https://www.youtube.com/results?search_query=4+Week+Treasury+Bills+Yield',
-    community: 'Humphrey Yang (730K views)',
-    author: 'Humphrey Yang',
-    duration: '14:02',
-    metrics: { views: '730K', likes: '38.5K', velocityScore: 93, retentionRate: '70%' },
-    status: 'Peak Viral',
-    summary: 'Treasury yields, bank interest rates, and macro liquidity explained simply. High search volume and high CPM financial audience.',
-    sampleHook: '"If you still have more than $5,000 sitting in a normal bank checking account, you are literally losing $200 a month."',
-    thumbnail: null,
-    publishedAt: new Date(Date.now() - 3600000 * 10).toISOString()
-  },
-  {
-    id: 'reddit-protein-science',
-    platform: 'reddit',
-    genre: 'fitness',
-    title: 'New Meta-Analysis Settles the Protein Timing & Intake Debate for Hypertrophy',
-    sourceUrl: 'https://www.reddit.com/r/fitness/',
-    community: 'r/fitness',
-    author: 'u/lift_science',
-    metrics: { upvotes: 2910, comments: 620, velocityScore: 88, engagementRate: '7.8%' },
-    status: 'Brewing Fast',
-    summary: 'Comprehensive analysis debunking expensive supplement marketing with practical whole food meal timing protocols.',
-    thumbnail: null,
-    publishedAt: new Date(Date.now() - 3600000 * 12).toISOString()
-  },
-  {
-    id: 'x-box-office',
-    platform: 'twitter',
-    genre: 'entertainment',
-    title: '#CinemaDiscourse: Mid-budget original thrillers beating $200M CGI franchises',
-    sourceUrl: 'https://x.com/search?q=%23CinemaDiscourse',
-    community: 'X / Twitter (78.3K posts)',
-    author: '@filmupdates_live',
-    metrics: { volume: '78K', velocityScore: 91, velocityChange: '+420% in 5h', sentiment: '86% Celebratory', controversy: 'Medium' },
-    status: 'Peak Viral',
-    sampleTweet: {
-      author: '@filmupdates_live',
-      text: 'A $3.5M budget movie with practical effects and Word-of-Mouth TikTok marketing just took the #1 spot in theaters. The studio model is officially backwards.',
-      likes: '45.3K',
-      retweets: '8,400'
-    },
-    summary: 'Pop culture commentators dissecting why organic grass-roots thrillers consistently crush bloated CGI sequels.',
-    thumbnail: null,
-    publishedAt: new Date(Date.now() - 3600000 * 14).toISOString()
-  },
-  {
-    id: 'ig-dumbphones',
-    platform: 'instagram',
-    genre: 'lifestyle',
-    title: '"I Swapped My iPhone for an E-Ink Minimalist Phone for 30 Days"',
-    sourceUrl: 'https://www.instagram.com/explore/tags/digitaldetox/',
-    community: 'Instagram Reels (@mindful_tech)',
-    author: '@mindful_tech',
-    audioTrack: 'Ambient Chillwave Sound (Trending in 28K reels)',
-    viralFormat: 'Minimalist B-roll aesthetics + screen time chart drop + cognitive clarity journaling comparison',
-    metrics: { avgViews: '980K', saveRate: '22.1%', velocityScore: 87, audioGrowth: '+140% this week' },
-    status: 'Brewing Fast',
-    sampleHook: '"My screen time dropped from 7 hours to 28 minutes. Here is the uncomfortable truth about dopamine detoxing."',
-    summary: 'Huge Gen-Z interest in intentional technology habits. High save-rate educational content.',
-    thumbnail: null,
-    publishedAt: new Date(Date.now() - 3600000 * 16).toISOString()
-  }
+const examples = [
+ ['phone-buying','tech','youtube','How to compare a phone launch without the hype','Start with battery, repair costs and the features you actually use.','Before you upgrade, compare these three everyday trade-offs.'],
+ ['upi-safety','finance','youtube','UPI safety: five checks before you tap Pay','A practical checklist for checking the recipient, amount and unexpected collect requests.','That payment request may look familiar. Check the name and amount first.'],
+ ['ipl-explainer','entertainment','twitter','IPL tactics: explain one over that changed the match','Use a scorecard and your own analysis to show field placement, risk and momentum.','One over can change the story. Here is how to break it down.'],
+ ['bollywood-budget','entertainment','twitter','Bollywood box office: budget is not the whole story','Explain reported budget, gross, distributor share and why different reports can disagree.','A box-office headline is only one number. What does it leave out?'],
+ ['pune-workday','lifestyle','instagram','A realistic creator workday in Pune','Show the research, commute, edit and revision instead of a staged routine.','Here is the unglamorous part of making one useful video.'],
+ ['mobile-gaming','gaming','reddit','Budget-phone gaming: settings that improve readability','Compare a busy scene with lower effects and clearer contrast using your own footage.','Better graphics do not always make a game easier to read.'],
+ ['protein-meals','fitness','reddit','Protein on an Indian grocery budget','Compare familiar foods and read labels. Avoid one-size-fits-all health claims.','Before you buy a supplement, compare what is already in your kitchen.'],
+ ['festival-video','lifestyle','instagram','Film a festival story without filming strangers up close','Build a short sequence with public scenes, details and permission-based portraits.','You can tell a festival story without turning strangers into your subject.']
 ];
+export const FALLBACK_TRENDS=examples.map(([id,genre,platform,title,summary,sampleHook])=>({id,genre,platform,title,summary,sampleHook,sourceUrl:null,community:'Workshop example',author:'@trendpulse_demo_creator',metrics:{},status:'Example',thumbnail:null,publishedAt:null}));
 
 export function generateClientClaudeStrategy(trend, customPreferences = {}) {
   const genre = trend.genre || 'tech';
@@ -152,7 +27,7 @@ export function generateClientClaudeStrategy(trend, customPreferences = {}) {
 
   // Dynamic titles customized by tone
   let title1 = `The Dangerous Truth About ${cleanSubject} Nobody Mentions`;
-  let title2 = `How to Leverage ${cleanSubject} Before It Gets Saturated (2026 Playbook)`;
+  let title2 = `How to use ${cleanSubject} Before It Gets Saturated (2026 Playbook)`;
   let title3 = `Why 99% of People Are Completely Wrong About ${cleanSubject}`;
 
   if (tone === 'controversial') {
@@ -175,9 +50,9 @@ export function generateClientClaudeStrategy(trend, customPreferences = {}) {
     topic: cleanSubject,
     genre: genre,
     viralPotentialScore: Math.floor(Math.random() * 5 + 93),
-    opportunityWindow: 'High (Next 48 to 72 hours before saturation)',
+    opportunityWindow: 'Choose a time after checking the facts',
     recommendedTone: tone,
-    poweredBy: 'Anthropic Claude 3.7 Sonnet (Advanced Reasoning Engine)',
+    poweredBy: 'Local template',
     titleVariants: [
       {
         style: tone === 'controversial' ? 'Contrarian Conflict' : 'Curiosity Gap / Psychological Hook',
@@ -195,12 +70,12 @@ export function generateClientClaudeStrategy(trend, customPreferences = {}) {
         style: tone === 'hype' ? 'Viral Pattern Interrupt' : 'Contrarian Debate / Comment Firestorm',
         title: title3,
         hookRating: 98,
-        whyItWorks: 'Cognitive dissonance drives massive immediate click-through and vibrant retention debates in comments.'
+        whyItWorks: 'Cognitive dissonance drives massive immediate click-through and discussion in comments.'
       }
     ],
     hooks: {
       shortForm: {
-        spokenHook: `Wait, before you scroll—if you think ${cleanSubject.slice(0, 30)} is just another trend, look at what happened in the last 24 hours.`,
+        spokenHook: `Wait, before you scroll,if you think ${cleanSubject.slice(0, 30)} is just another trend, look at what happened in the last 24 hours.`,
         visualAction: 'Hold phone or prop directly towards the camera lens, cut quickly to a highlighted red metric screenshot within 1.2 seconds.',
         textOnScreen: `⚠️ STOP DOING THIS with ${cleanSubject.slice(0, 18)}...`
       },
