@@ -102,19 +102,19 @@ export default function App() {
 
   const handleQuickSave = async (trend) => {
     const already = savedIdeas.some(i => i.topic === trend.title);
-    if (already) { showToast('Already in your Creator Studio'); return; }
+    if (already) { showToast('Already in your Idea board'); return; }
     try {
       const res = await saveIdeaToBacklog({
         topic: trend.title, genre: trend.genre,
         targetPlatform: trend.platform,
         titleVariant: trend.title,
         hookText: trend.sampleHook || `Wait, look at what just happened with ${trend.title}`,
-        notes: `${trend.platform.toUpperCase()} · ${trend.community || ''} · Score ${trend.metrics?.velocityScore || 80}`,
-        viralScore: trend.metrics?.velocityScore || 85,
+        notes: trend.isRealTopic ? trend.summary : trend.summary || '', sourceUrl: trend.sourceUrl || null,
+        viralScore: null,
       });
       if (res.success) {
         setSavedIdeas(p => [res.idea, ...p]);
-        showToast('✓ Saved to Creator Studio!');
+        showToast('✓ Saved to Idea board!');
         try { confetti({ particleCount: 40, spread: 55, origin: { y: 0.75 } }); } catch {}
       }
     } catch (e) { console.error(e); }
@@ -125,9 +125,10 @@ export default function App() {
       const res = await saveIdeaToBacklog(payload);
       if (res.success) {
         setSavedIdeas(p => [res.idea, ...p]);
-        showToast('✓ Video concept saved to Creator Studio!');
+        showToast('✓ Video concept saved to Idea board!');
       }
-    } catch (e) {}
+      return true;
+    } catch (e) { showToast('Could not save your idea. Please try again.'); return false; }
   };
 
   const handleUpdateStatus = async (id, status) => {
@@ -227,7 +228,7 @@ export default function App() {
             }}
           />
 
-          <RealTrendFeed />
+          <RealTrendFeed onMakeBrief={setModalTrend} onSave={handleQuickSave} savedIds={savedIds} />
 
 
           {/* Section Divider */}
@@ -265,7 +266,7 @@ export default function App() {
             />
           </section>
 
-          <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 py-14"><h2 className="text-3xl font-extrabold text-ink mb-6">How it works</h2><div className="grid md:grid-cols-3 gap-5">{[['01','Find a topic','Explore search activity and read the linked headlines.'],['02','Shape your angle','Use a template brief to plan your hook, outline and format.'],['03','Save your idea','Keep a local workshop board or sign in to save account ideas.']].map(([n,t,d])=><article key={n} className="card p-6"><span className="text-brand font-black">{n}</span><h3 className="font-bold mt-3">{t}</h3><p className="text-sm text-ink-3 mt-2">{d}</p></article>)}</div></section>
+          <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 py-14"><h2 className="text-3xl font-extrabold text-ink mb-6">How it works</h2><div className="grid md:grid-cols-3 gap-5">{[['01','Find a topic','Explore search activity and read the linked headlines.'],['02','Shape your angle','Use a template brief to plan your hook, outline and format.'],['03','Save your idea','Keep an Idea board in this browser. Account ideas are separate in the private dashboard.']].map(([n,t,d])=><article key={n} className="card p-6"><span className="text-brand font-black">{n}</span><h3 className="font-bold mt-3">{t}</h3><p className="text-sm text-ink-3 mt-2">{d}</p></article>)}</div></section>
           <AccountDashboard />
           {/* Roadmap */}
           <ClaudeArchitectureSection />
@@ -280,7 +281,7 @@ export default function App() {
           <CompanySection />
         </>
       ) : (
-        /* Creator Studio Kanban Tab */
+        /* Idea board Kanban Tab */
         <div id="studio" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <CreatorBacklog
             savedIdeas={savedIdeas}
