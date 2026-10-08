@@ -171,7 +171,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
 
               {/* ── 2. Hook ──────────────────────── */}
               <div>
-                <SectionHeading number="2">
+                <SectionHeading number="1">
                   Opening hook: {format === 'shortForm' ? 'Vertical Shorts / Reels' : 'YouTube Long-Form'}
                 </SectionHeading>
                 <div className="rounded-2xl p-5 border-l-4 space-y-4"
@@ -210,7 +210,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
 
               {/* ── 1. Title Options ─────────────── */}
               <div>
-                <SectionHeading number="1">Title options</SectionHeading>
+                <SectionHeading number="2">Title options</SectionHeading>
                 <div className="space-y-3">
                   {strategy.titleVariants.map((v, i) => (
                     <div key={i} className="rounded-2xl p-4 border-2 hover:border-brand transition-all group/t"
