@@ -69,7 +69,7 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
       targetPlatform: trend.platform || 'youtube',
       titleVariant: strategy.titleVariants[0]?.title || strategy.topic,
       hookText: strategy.hooks[format]?.spokenHook,
-      viralScore: null, sourceUrl: trend.sourceUrl || null,
+      viralScore: null, sourceUrl: trend.sourceUrl || null, contextDate:trend.publishedAt||trend.fetchedAt||null, searchVolume:trend.approximateTraffic||null, headline:trend.articles?.[0]?.title||null, sourcePublisher:trend.articles?.[0]?.publisher||null, fullBrief:[strategy.hooks[format]?.spokenHook,...strategy.outline.map(o=>o.name+"\n"+o.details)].join("\n\n"),
       notes: (trend.isRealTopic ? trend.summary + "\n" : "") + `Format: ${format} | Thumbnail: "${strategy.thumbnailConcept.mainTextOverlay}"`,
     });
     if (saved !== false) setSavedLocally(true);
@@ -315,4 +315,4 @@ export default function IdeaGeneratorModal({ trend, isOpen, onClose, onSaveToBac
       </div>
     </div>
   );
-}
+      }
