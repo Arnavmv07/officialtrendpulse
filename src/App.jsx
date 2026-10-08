@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
+import RealTrendFeed from './components/RealTrendFeed';
 import HeroSection from './components/HeroSection';
 import StatsBanner from './components/StatsBanner';
 import FilterBar from './components/FilterBar';
@@ -220,6 +221,8 @@ export default function App() {
               setContactModalOpen(true);
             }}
           />
+
+          <RealTrendFeed />
 
           {/* Section Divider */}
           <div style={{ height: '2px', background: 'linear-gradient(to right, #EEF0FF, #DDD9FF, #EEF0FF)' }} />
