@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ExternalLink, RefreshCw, Search } from 'lucide-react';
 
+function SourceImage({ item }) {
+  const [failed, setFailed] = useState(false);
+  if (!item.thumbnail || failed) return <div className="rounded-xl bg-surface p-5 text-xs text-ink-3">Source image unavailable</div>;
+  return <figure><img src={item.thumbnail} alt={'Image supplied by Google Trends for ' + item.title} className="w-full h-40 object-contain rounded-xl bg-surface" loading="lazy" referrerPolicy="no-referrer" onError={() => setFailed(true)} /><figcaption className="text-[10px] text-ink-3 mt-1">Image supplied by Google Trends for this topic. Not a TrendPulse illustration. External image may be unavailable.</figcaption></figure>;
+}
+
 const formatTime = value => value ? new Date(value).toLocaleString() : 'Not provided';
 export default function RealTrendFeed() {
   const [result, setResult] = useState(null);
@@ -39,6 +45,7 @@ export default function RealTrendFeed() {
       {items.map(item => <article key={item.id} className="card p-5 space-y-3">
         <span className="text-[10px] font-bold text-brand">SOURCE DATA · GOOGLE TRENDS · INDIA</span>
         <h3 className="text-lg font-extrabold text-ink">{item.title}</h3>
+        <SourceImage item={item} />
         <p className="text-sm text-ink-2">Approximate traffic: <strong>{item.approximateTraffic || 'Not provided'}</strong></p>
         <p className="text-xs text-ink-3">Source published: {formatTime(item.publishedAt)}</p>
         {item.articles.length > 0 && <div className="space-y-2 pt-2 border-t border-line"><p className="text-xs font-bold text-ink-3">Related headlines supplied by the feed</p>{item.articles.map(article => <a key={article.url} href={article.url} target="_blank" rel="noopener noreferrer" className="block text-xs text-brand hover:underline">{article.title}<span className="block text-ink-3 mt-0.5">{article.publisher}</span></a>)}</div>}
