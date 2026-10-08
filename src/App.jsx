@@ -55,8 +55,9 @@ export default function App() {
 
   useEffect(() => {
     loadSaved();
-    const route = () => { setActiveTab(window.location.hash === "#studio" ? "studio" : "feed"); setTimeout(() => document.querySelector(window.location.hash || "#top")?.scrollIntoView({block:"start"}), 150); };
+    const route = () => { setActiveTab(window.location.hash === "#studio" ? "studio" : "feed"); setTimeout(() => document.getElementById(window.location.hash.slice(1) || "top")?.scrollIntoView({block:"start"}), 150); };
     window.addEventListener("hashchange", route);
+    route();
     return () => window.removeEventListener("hashchange", route);
   }, []);
 
