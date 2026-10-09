@@ -1,4 +1,5 @@
 import Parser from 'rss-parser';
+import { enrichTrend } from '../lib/trend-labels.js';
 import { createHash } from 'node:crypto';
 
 const SOURCE = 'https://trends.google.com/trending/rss?geo=IN';
@@ -33,7 +34,7 @@ export async function parseTrends(xml, fetchedAt = new Date().toISOString()) {
       fetchedAt, approximateTraffic: text(item['ht:approx_traffic']) || null,
       thumbnail: safeFeedImage(item['ht:picture']), thumbnailSource: 'Google Trends RSS image', articles,
     };
-  }).filter(item => item.title);
+  }).filter(item => item.title).map(enrichTrend);
   if (!items.length) throw new Error('Source returned no items');
   return { success: true, source: 'Google Trends India RSS', sourceUrl: SOURCE, fetchedAt, items };
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
+import AccountDashboard from './components/AccountDashboard';
 import RealTrendFeed from './components/RealTrendFeed';
 import HeroSection from './components/HeroSection';
 import StatsBanner from './components/StatsBanner';
@@ -16,13 +17,13 @@ import ContactModal from './components/ContactModal';
 import {
   fetchTrends, refreshCrawlers,
   fetchSavedIdeas, saveIdeaToBacklog,
-  updateSavedIdeaStatus, deleteSavedIdea,
+  updateSavedIdeaStatus, deleteSavedIdea, editSavedIdea, restoreSavedIdea,
 } from './services/api';
 import confetti from 'canvas-confetti';
 import { Sparkles, ShieldCheck, Mail, ArrowUpRight } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('feed');
+  const [activeTab, setActiveTab] = useState(window.location.hash === '#studio' ? 'studio' : 'feed');
   const [trends, setTrends] = useState([]);
   const [crawlerStatus, setCrawlerStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,6 +31,7 @@ export default function App() {
   const [savedIdeas, setSavedIdeas] = useState([]);
   const [modalTrend, setModalTrend] = useState(null);
   const [toast, setToast] = useState(null);
+  const [deletedIdea,setDeletedIdea]=useState(null);
 
   // Active Plan state (Free Explorer vs Creator Pro)
   const [currentPlan, setCurrentPlan] = useState('free');
@@ -54,6 +56,10 @@ export default function App() {
 
   useEffect(() => {
     loadSaved();
+    const route = () => { setActiveTab(window.location.hash === "#studio" ? "studio" : "feed"); setTimeout(() => document.getElementById(window.location.hash.slice(1) || "top")?.scrollIntoView({block:"start"}), 150); };
+    window.addEventListener("hashchange", route);
+    route();
+    return () => window.removeEventListener("hashchange", route);
   }, []);
 
   const checkStoredProProfile = () => {
@@ -97,19 +103,19 @@ export default function App() {
 
   const handleQuickSave = async (trend) => {
     const already = savedIdeas.some(i => i.topic === trend.title);
-    if (already) { showToast('Already in your Creator Studio'); return; }
+    if (already) { showToast('Already in your Idea board'); return; }
     try {
       const res = await saveIdeaToBacklog({
         topic: trend.title, genre: trend.genre,
         targetPlatform: trend.platform,
         titleVariant: trend.title,
-        hookText: trend.sampleHook || `Wait—look at what just happened with ${trend.title}`,
-        notes: `${trend.platform.toUpperCase()} · ${trend.community || ''} · Score ${trend.metrics?.velocityScore || 80}`,
-        viralScore: trend.metrics?.velocityScore || 85,
+        hookText: trend.sampleHook || `Wait, look at what just happened with ${trend.title}`,
+        notes: trend.isRealTopic ? trend.summary : trend.summary || '', sourceUrl: trend.sourceUrl || null,
+        viralScore: null, contextDate:trend.publishedAt||trend.fetchedAt||null, searchVolume:trend.approximateTraffic||null, headline:trend.articles?.[0]?.title||null, sourcePublisher:trend.articles?.[0]?.publisher||null,
       });
       if (res.success) {
         setSavedIdeas(p => [res.idea, ...p]);
-        showToast('✓ Saved to Creator Studio!');
+        showToast('✓ Saved to Idea board!');
         try { confetti({ particleCount: 40, spread: 55, origin: { y: 0.75 } }); } catch {}
       }
     } catch (e) { console.error(e); }
@@ -120,9 +126,10 @@ export default function App() {
       const res = await saveIdeaToBacklog(payload);
       if (res.success) {
         setSavedIdeas(p => [res.idea, ...p]);
-        showToast('✓ Video concept saved to Creator Studio!');
+        showToast('✓ Video concept saved to Idea board!');
       }
-    } catch (e) {}
+      return true;
+    } catch (e) { showToast('Could not save your idea. Please try again.'); return false; }
   };
 
   const handleUpdateStatus = async (id, status) => {
@@ -135,9 +142,11 @@ export default function App() {
 
   const handleDelete = async (id) => {
     try {
+      const removed=savedIdeas.find(i=>i.id===id);
       await deleteSavedIdea(id);
+      setDeletedIdea(removed);
       setSavedIdeas(p => p.filter(i => i.id !== id));
-      showToast('Removed from backlog');
+      showToast('Idea deleted. Undo is available below.');
     } catch {}
   };
 
@@ -146,10 +155,13 @@ export default function App() {
       const res = await saveIdeaToBacklog(payload);
       if (res.success) {
         setSavedIdeas(p => [res.idea, ...p]);
-        showToast('✓ Custom concept added!');
+        showToast('Idea added.');
       }
-    } catch {}
+      return true;
+    } catch {showToast('Could not save idea.');return false;}
   };
+  const handleEditIdea=async(id,patch)=>{try{await editSavedIdea(id,patch);setSavedIdeas(p=>p.map(i=>i.id===id?{...i,...patch}:i));showToast('Hook saved.');return true;}catch{showToast('Could not save hook.');return false;}};
+  const undoDelete=async()=>{try{await restoreSavedIdea(deletedIdea);setSavedIdeas(p=>p.some(i=>i.id===deletedIdea.id)?p:[deletedIdea,...p]);setDeletedIdea(null);showToast('Idea restored.');}catch{showToast('Could not restore idea.');}};
 
   const showToast = (msg) => {
     setToast(msg);
@@ -178,6 +190,7 @@ export default function App() {
   return (
     <div className="min-h-screen" style={{ background: '#F6F5FF', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
 
+      {deletedIdea&&<div role="status" className="fixed bottom-4 left-4 right-4 sm:right-auto z-[60] bg-white border border-line rounded-xl shadow-xl p-4 flex gap-4 items-center text-sm"><span>Idea deleted</span><button className="text-brand font-bold" onClick={undoDelete}>Undo</button><button aria-label="Dismiss undo" onClick={()=>setDeletedIdea(null)}>Dismiss</button></div>}
       {/* Floating Toast notification */}
       {toast && (
         <div className="fixed bottom-6 right-6 z-50 toast-enter">
@@ -222,7 +235,8 @@ export default function App() {
             }}
           />
 
-          <RealTrendFeed />
+          <RealTrendFeed onMakeBrief={setModalTrend} onSave={handleQuickSave} savedIds={savedIds} />
+
 
           {/* Section Divider */}
           <div style={{ height: '2px', background: 'linear-gradient(to right, #EEF0FF, #DDD9FF, #EEF0FF)' }} />
@@ -232,32 +246,18 @@ export default function App() {
 
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
               <div>
-                <span className="section-label mb-2.5 inline-block">Interactive Product Demo</span>
+                <span className="section-label mb-2.5 inline-block">Try the workflow</span>
                 <h2 className="text-3xl font-extrabold text-ink">
-                  Sample Trend Radar & Concept Workshop
+                  Pick a topic. Make a plan.
                 </h2>
-                <p className="text-sm mt-1 text-ink-3">
-                  {trends.length} sample cards, not live trends. Metrics and names are illustrative. Click{' '}
-                  <strong style={{ color: '#4B35E8' }}>Generate Strategy</strong> to explore a template-based demo brief
-                </p>
+                <p className="text-sm mt-2 text-ink-3">Eight India-focused examples to explore briefs and a browser-local idea board. These are editorial examples, not live platform data.</p>
               </div>
 
-              <div className="flex items-center gap-2">
-                {currentPlan === 'pro' && (
-                  <span className="text-xs font-black px-3 py-1.5 rounded-full"
-                    style={{ background: '#C5FF00', color: '#12112A' }}>
-                    PRO TIER ACTIVE
-                  </span>
-                )}
-                <div className="text-xs font-semibold px-3.5 py-1.5 rounded-full border-2 text-brand bg-white"
-                  style={{ borderColor: '#DDD9FF' }}>
-                  Sample Data · Not Live
-                </div>
-              </div>
+              <button className="btn-outline text-xs" onClick={handleRefresh} disabled={isRefreshing}>{isRefreshing?'Reloading...':'Reload examples'}</button>
             </div>
 
             {/* Stats Banner */}
-            <StatsBanner trends={trends} />
+            
 
             {/* Filter Controls */}
             <FilterBar filters={filters} setFilters={setFilters} />
@@ -273,7 +273,9 @@ export default function App() {
             />
           </section>
 
-          {/* Dedicated Claude Architecture Section */}
+          <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 py-14"><h2 className="text-3xl font-extrabold text-ink mb-6">How it works</h2><div className="grid md:grid-cols-3 gap-5">{[['01','Find a topic','Explore search activity and read the linked headlines.'],['02','Shape your angle','Use a template brief to plan your hook, outline and format.'],['03','Save your idea','Keep an Idea board in this browser. Account ideas are separate in the private dashboard.']].map(([n,t,d])=><article key={n} className="card p-6"><span className="text-brand font-black">{n}</span><h3 className="font-bold mt-3">{t}</h3><p className="text-sm text-ink-3 mt-2">{d}</p></article>)}</div></section>
+          <AccountDashboard />
+          {/* Roadmap */}
           <ClaudeArchitectureSection />
 
           {/* Transparent SaaS Pricing Section */}
@@ -286,94 +288,20 @@ export default function App() {
           <CompanySection />
         </>
       ) : (
-        /* Creator Studio Kanban Tab */
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        /* Idea board Kanban Tab */
+        <div id="studio" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <CreatorBacklog
             savedIdeas={savedIdeas}
             onUpdateStatus={handleUpdateStatus}
             onDeleteIdea={handleDelete}
             onAddNewIdea={handleAddCustom}
-            onSwitchToFeed={() => setActiveTab('feed')}
+            onEditIdea={handleEditIdea}
+            onSwitchToFeed={() => {window.location.hash='real-feed';setActiveTab('feed');}}
           />
         </div>
       )}
 
-      {/* Footer */}
-      <footer className="border-t-2 mt-16 bg-white" style={{ borderColor: '#DDD9FF' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
-
-            {/* Col 1: Brand & Identity */}
-            <div className="space-y-3 md:col-span-1">
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs"
-                  style={{ background: '#4B35E8', color: '#C5FF00' }}>
-                  TP
-                </div>
-                <span className="font-extrabold text-base text-ink">TrendPulse AI</span>
-              </div>
-              <p className="text-xs text-ink-3 leading-relaxed">
-                TrendPulse<br />
-                Pune, India<br />
-                Started October 2026. Built by Arnav Ramesh.
-              </p>
-              <div className="pt-1">
-                <a
-                  href="mailto:founders@officialtrendpulse.in"
-                  className="text-xs font-mono font-bold text-brand hover:underline flex items-center gap-1"
-                >
-                  <Mail className="w-3.5 h-3.5" />
-                  founders@officialtrendpulse.in
-                </a>
-              </div>
-            </div>
-
-            {/* Col 2: Platform Links */}
-            <div className="space-y-2 text-xs">
-              <h4 className="font-bold text-ink uppercase tracking-wider text-[11px]">Product</h4>
-              <ul className="space-y-1.5 text-ink-3">
-                <li><button onClick={() => { setActiveTab('feed'); scrollToFeed(); }} className="hover:text-brand">Sample Trend Radar</button></li>
-                <li><button onClick={() => setActiveTab('studio')} className="hover:text-brand">Creator Studio Kanban</button></li>
-                <li><a href="#claude-stack" className="hover:text-brand">Development Roadmap</a></li>
-                <li><a href="#pricing" className="hover:text-brand">Future Plans</a></li>
-              </ul>
-            </div>
-
-            {/* Col 3: Company */}
-            <div className="space-y-2 text-xs">
-              <h4 className="font-bold text-ink uppercase tracking-wider text-[11px]">Company</h4>
-              <ul className="space-y-1.5 text-ink-3">
-                <li><a href="#about" className="hover:text-brand">About Us</a></li>
-                <li><button onClick={() => { setContactModalRole('Creator / Founder'); setContactModalOpen(true); }} className="hover:text-brand">Request Pilot / Contact</button></li>
-              </ul>
-            </div>
-
-            {/* Col 4: Trust, Safety & Compliance */}
-            <div className="space-y-2 text-xs">
-              <h4 className="font-bold text-ink uppercase tracking-wider text-[11px]">Demo Information</h4>
-              <ul className="space-y-1.5 text-ink-3">
-                <li><button onClick={() => openComplianceWithTab('privacy')} className="hover:text-brand">Privacy & Local Storage</button></li>
-                <li><button onClick={() => openComplianceWithTab('terms')} className="hover:text-brand">Demo Terms</button></li>
-                <li><button onClick={() => openComplianceWithTab('safety')} className="hover:text-brand">Responsible Use</button></li>
-              </ul>
-            </div>
-
-          </div>
-
-          <div className="pt-8 border-t-2 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-ink-3"
-            style={{ borderColor: '#EEF0FF' }}>
-            <div className="flex items-center gap-2">
-              <span>© {new Date().getFullYear()} TrendPulse All rights reserved.</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="live-dot" style={{ width: 6, height: 6 }}></span>
-              <span>Prototype · Live Crawlers and Claude Integration Planned</span>
-            </div>
-          </div>
-
-        </div>
-      </footer>
+      <footer className="bg-white border-t border-line mt-10"><div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 flex flex-wrap justify-between gap-6"><div><p className="font-extrabold text-lg text-ink">TrendPulse</p><p className="text-xs text-ink-3 mt-2">Find your next video idea. Built in Pune, India.</p><a className="text-xs text-brand mt-3 block" href="mailto:founders@officialtrendpulse.in">founders@officialtrendpulse.in</a></div><nav aria-label="Footer" className="flex flex-wrap gap-5 text-xs text-ink-2"><a href="/#real-feed">Today's trends</a><a href="/#about">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/responsible-use.html">Responsible use</a></nav><p className="text-xs text-ink-3 w-full">Copyright 2026 TrendPulse.</p></div></footer>
 
       {/* AI Strategy Generation Modal */}
       <IdeaGeneratorModal

@@ -71,3 +71,6 @@ export const deleteSavedIdea = async id => {
   writeIdeas(readIdeas().filter(i => i.id !== id));
   return { success: true, message: 'Deleted locally' };
 };
+
+export const editSavedIdea = async (id, patch) => {const list=readIdeas(), idea=list.find(i=>i.id===id);if(!idea)throw Error('Idea not found');if(typeof patch.hookText==='string')idea.hookText=patch.hookText.slice(0,2000);writeIdeas(list);return {success:true,idea};};
+export const restoreSavedIdea = async idea => {const list=readIdeas();if(!list.some(i=>i.id===idea.id)){list.unshift(idea);writeIdeas(list);}return {success:true};};

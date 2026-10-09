@@ -197,3 +197,9 @@ body {
   color: #fff;
   box-shadow: 0 4px 16px rgba(75,53,232,0.3);
 }
+
+section[id], #studio { scroll-margin-top: 96px; }
+
+/* Readable body and metadata in the early preview. */
+.text-xs,.section-label,.badge {font-size:14px !important;line-height:1.5 !important;}
+[class*="text-[9px]"],[class*="text-[10px]"],[class*="text-[11px]"],[class*="text-[12px]"]{font-size:14px !important;line-height:1.5 !important;}
